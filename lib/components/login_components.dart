@@ -97,13 +97,15 @@ class LoginButton extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               onPressed: () async {
-                var response = await loginUser(http.Client(),
+                var character = await loginUser(http.Client(),
                     emailController.text, passwordController.text);
-                print(response.headers['location']);
-                Navigator.push(
+
+              Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CharacterScreen()));
+                        builder: (context) => CharacterScreen(
+                              character: character,
+                            )));
               },
               child: Text(
                 'LOGIN',

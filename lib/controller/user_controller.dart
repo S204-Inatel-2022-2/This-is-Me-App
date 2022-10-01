@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/model/user.dart';
 import 'package:http/http.dart' as http;
 
-Future<http.Response> loginUser(
+Future<Character> loginUser(
   http.Client client,
   String email,
   String password,
@@ -20,12 +22,19 @@ Future<http.Response> loginUser(
         'password': password,
       }));
 
-  return response;
-}
+  final getCharacterUrl = Uri.parse(response.headers['location'].toString());
+  final getCharacterToken = response.headers['set-cookie'];
+  final character = await client.get(getCharacterUrl, headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    // 'Authorization': 'Bearer $getCharacterToken',
+  });
 
-// A function that converts a response body into a List<Photo>.
-User parseLists(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<User>((json) => User.fromJson(json));
+  print('Headers: ${response.headers}');
+  // print('Rota: $getCharacterUrl');
+  // print('Token: $getCharacterToken}');
+  // print('Status: ${character.statusCode}');
+  // print('Corpo: ${character.body}');
+  // Use the compute function to run parsePhotos in a separate isolate.
+  return Character.fromJson(jsonDecode(character.body));
 }

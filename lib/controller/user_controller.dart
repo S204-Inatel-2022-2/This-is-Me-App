@@ -22,29 +22,14 @@ Future<Character> loginUser(
         'password': password,
       }));
 
-  // TODO: Validar se o código é diferente de 302, se for já retornar erro
-  // pode tratar cada erro diferentemente se preferir por exemplo 401
-  print("status: " + response.statusCode.toString());
-  if (response.statusCode == 401) {
-    print("msg: credenciais invalidas");
-    //return "";
-  } else if (response.statusCode != 302){
-    print("msg: erro desconhecido");
-    //return "";
-  }
-
-
   final getCharacterPath = Uri.parse(response.headers['location'].toString());
   final getCharacterToken = response.headers['set-cookie'];
-
-
   final character = await client.get(getCharacterPath, headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'Cookie': '$getCharacterToken',
   });
-  
 
-  // Use the compute function to run parsePhotos in a separate isolate.
+  // Use the compute function to run parseCharacter in a separate isolate.
   return Character.fromJson(jsonDecode(character.body));
 }

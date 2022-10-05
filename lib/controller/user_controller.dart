@@ -1,13 +1,9 @@
 import 'dart:convert';
 import 'dart:ffi';
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:this_is_me/model/character.dart';
-import 'package:this_is_me/model/user.dart';
 import 'package:http/http.dart' as http;
 
-Future<Character> loginUser(
+Future<dynamic> loginUser(
   http.Client client,
   String email,
   String password,
@@ -22,6 +18,10 @@ Future<Character> loginUser(
         'password': password,
       }));
 
+  if (response.statusCode != 302) {
+    print(response.body);
+    return response.body;
+  }
   final getCharacterPath = Uri.parse(response.headers['location'].toString());
   final getCharacterToken = response.headers['set-cookie'];
   final character = await client.get(getCharacterPath, headers: {
@@ -30,6 +30,5 @@ Future<Character> loginUser(
     'Cookie': '$getCharacterToken',
   });
 
-  // Use the compute function to run parseCharacter in a separate isolate.
   return Character.fromJson(jsonDecode(character.body));
 }

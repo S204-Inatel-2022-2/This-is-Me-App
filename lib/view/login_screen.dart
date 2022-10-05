@@ -13,18 +13,17 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: background,
-      body:
-          Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
-        LoginLogo(imagePath: 'assets/images/loginLogo.png'),
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: const[
+         LoginLogo(imagePath: 'assets/images/loginLogo.png'),
         UserLoginInput(
           emailHint: 'EMAIL',
           passwrdHint: 'PASSWORD',
           forgotPasswordLabel: 'ESQUECI MINHA SENHA',
           newAccountLabel: 'NOVA CONTA',
         ),
-        LoginButton(),
-        ForgotPasswordButton(message: 'ESQUECI MINHA SENHA'),
-        NewAccountButton(message: 'NOVA CONTA')
+         LoginButton(),
+         ForgotPasswordButton(message: 'ESQUECI MINHA SENHA'),
+         NewAccountButton(message: 'NOVA CONTA')
       ]),
     );
   }

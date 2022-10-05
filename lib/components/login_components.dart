@@ -1,8 +1,17 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
+import 'package:this_is_me/controller/user_controller.dart';
+import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/view/character_screen.dart';
-import 'package:this_is_me/view/registration_screen.dart';
+import 'package:this_is_me/view/account/registration_screen.dart';
+import 'package:http/http.dart' as http;
+
+// TextEditingController
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
 class LoginLogo extends StatelessWidget {
   const LoginLogo({super.key, required this.imagePath});
@@ -31,6 +40,7 @@ class UserLoginInput extends StatelessWidget {
   final String passwrdHint;
   final String forgotPasswordLabel;
   final String newAccountLabel;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,22 +49,24 @@ class UserLoginInput extends StatelessWidget {
         Padding(
             padding: const EdgeInsets.all(10),
             child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
-              filled: true,
-              fillColor: inputField,
-              hintText: emailHint,
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(width: 3, color: inputField),
-                borderRadius: BorderRadius.circular(40),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(width: 3, color: inputField),
-                borderRadius: BorderRadius.circular(40),
-              ),
-            ))),
+                  filled: true,
+                  fillColor: inputField,
+                  hintText: emailHint,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 3, color: inputField),
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 3, color: inputField),
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                ))),
         Padding(
             padding: const EdgeInsets.all(10),
             child: TextField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   filled: true,
@@ -72,9 +84,14 @@ class UserLoginInput extends StatelessWidget {
   }
 }
 
-class LoginButton extends StatelessWidget {
+class LoginButton extends StatefulWidget {
   const LoginButton({super.key});
 
+  @override
+  State<LoginButton> createState() => _LoginButtonState();
+}
+
+class _LoginButtonState extends State<LoginButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -87,15 +104,68 @@ class LoginButton extends StatelessWidget {
                   backgroundColor: midPurple,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CharacterScreen())),
+              onPressed: () async {
+                if (emailController.text.isEmpty ||
+                    passwordController.text.isEmpty) {
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Preencha os campos corretamente'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+
+                var character = await loginUser(http.Client(),
+                    emailController.text, passwordController.text);
+                if (character != Character) {
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      if (character == 'Bad credentials') {
+                        character = 'Usuário inexistente ou senha inválida';
+                      }
+                      return AlertDialog(
+                        title: Text(character),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+                goToCharacterScreen(character);
+              },
               child: Text(
                 'LOGIN',
                 style: loginButton,
               ))),
     );
+  }
+
+  void goToCharacterScreen(Character character) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CharacterScreen(
+                  character: character,
+                )));
   }
 }
 

@@ -128,7 +128,7 @@ class _LoginButtonState extends State<LoginButton> {
 
                 var character = await loginUser(http.Client(),
                     emailController.text, passwordController.text);
-                if (character != Character) {
+                if (character is! Character) {
                   return showDialog<void>(
                     context: context,
                     barrierDismissible: false, // user must tap button!
@@ -137,7 +137,7 @@ class _LoginButtonState extends State<LoginButton> {
                         character = 'Usuário inexistente ou senha inválida';
                       }
                       return AlertDialog(
-                        title: Text(character),
+                        title: Text(character.toString()),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Ok'),

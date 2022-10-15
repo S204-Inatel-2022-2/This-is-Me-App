@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:this_is_me/model/character.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,7 +18,6 @@ Future<dynamic> loginUser(
       }));
 
   if (response.statusCode != 302) {
-    print(response.body);
     return response.body;
   }
   final getCharacterPath = Uri.parse(response.headers['location'].toString());

@@ -148,6 +148,7 @@ class _LoginButtonState extends State<LoginButton> {
                     },
                   );
                 }
+              
                 goToCharacterScreen(character);
               },
               child: Text(

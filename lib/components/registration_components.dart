@@ -3,6 +3,8 @@ import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/constants/app_texts.dart';
 import 'package:flutter/material.dart';
+import 'package:this_is_me/controller/user_controller.dart';
+import 'package:http/http.dart' as http;
 
 // TextEditingController
 TextEditingController usernameController = TextEditingController();
@@ -174,7 +176,8 @@ class RegistrationButton extends StatelessWidget {
           height: 50,
           width: 150,
           child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: midPurple,
                   shape: RoundedRectangleBorder(

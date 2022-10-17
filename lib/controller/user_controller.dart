@@ -30,3 +30,30 @@ Future<dynamic> loginUser(
 
   return Character.fromJson(jsonDecode(character.body));
 }
+
+Future<dynamic> signUpUser(http.Client client, String username, String email,
+    String password, String passwordAgain) async {
+  final response = await client.post(
+      Uri.parse('https://timeapibyredfoxghs.herokuapp.com/user/register'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'userDtoInput': {'email': email, 'password': password},
+        'verifyPassword': passwordAgain,
+        'characterName': username
+      }));
+
+  if (response.statusCode != 302) {
+    return response.body;
+  }
+  final getCharacterPath = Uri.parse(response.headers['location'].toString());
+  final getCharacterToken = response.headers['set-cookie'];
+  final character = await client.get(getCharacterPath, headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Cookie': '$getCharacterToken',
+  });
+
+  return Character.fromJson(jsonDecode(character.body));
+}

@@ -5,6 +5,9 @@ import 'package:this_is_me/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 import 'package:this_is_me/controller/user_controller.dart';
 import 'package:http/http.dart' as http;
+import 'package:this_is_me/model/exception/response_exception.dart';
+import 'package:this_is_me/view/account/build_character_screen.dart';
+import 'package:this_is_me/view/quest_screen.dart';
 
 // TextEditingController
 TextEditingController usernameController = TextEditingController();
@@ -54,20 +57,21 @@ class UserNameField extends StatelessWidget {
       child: SizedBox(
           height: 50,
           child: TextField(
+              controller: usernameController,
               decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(15),
-            hintText: hint,
-            filled: true,
-            fillColor: inputField,
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(width: 3, color: inputField),
-              borderRadius: BorderRadius.circular(40),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(width: 3, color: inputField),
-              borderRadius: BorderRadius.circular(40),
-            ),
-          ))),
+                contentPadding: const EdgeInsets.all(15),
+                hintText: hint,
+                filled: true,
+                fillColor: inputField,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 3, color: inputField),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 3, color: inputField),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+              ))),
     );
   }
 }
@@ -105,69 +109,79 @@ class UserRegistrationInfo extends StatelessWidget {
           child: SizedBox(
               height: 50,
               child: TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(top: 15, left: 15),
-                hintText: emailHint,
-                filled: true,
-                fillColor: inputField,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ))),
+                    contentPadding: const EdgeInsets.only(top: 15, left: 15),
+                    hintText: emailHint,
+                    filled: true,
+                    fillColor: inputField,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ))),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
           child: SizedBox(
               height: 50,
               child: TextField(
+                  obscureText: true,
+                  controller: passwordController,
                   decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(top: 15, left: 15),
-                hintText: passwordHint,
-                filled: true,
-                fillColor: inputField,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ))),
+                    contentPadding: const EdgeInsets.only(top: 15, left: 15),
+                    hintText: passwordHint,
+                    filled: true,
+                    fillColor: inputField,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ))),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
           child: SizedBox(
               height: 50,
               child: TextField(
+                  obscureText: true,
+                  controller: passwordAgainController,
                   decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(top: 15, left: 15),
-                hintText: passwordAgainText,
-                filled: true,
-                fillColor: inputField,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ))),
+                    contentPadding: const EdgeInsets.only(top: 15, left: 15),
+                    hintText: passwordAgainText,
+                    filled: true,
+                    fillColor: inputField,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ))),
         )
       ]),
     );
   }
 }
 
-class RegistrationButton extends StatelessWidget {
+class RegistrationButton extends StatefulWidget {
   const RegistrationButton({super.key});
 
+  @override
+  State<RegistrationButton> createState() => _RegistrationButtonState();
+}
+
+class _RegistrationButtonState extends State<RegistrationButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -176,7 +190,64 @@ class RegistrationButton extends StatelessWidget {
           height: 50,
           width: 150,
           child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                //verifying if the fields arent empty
+                if (usernameController.text.isEmpty ||
+                    emailController.text.isEmpty ||
+                    passwordController.text.isEmpty ||
+                    passwordAgainController.text.isEmpty) {
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Preencha os campos corretamente'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+
+                var response = await signUpUser(
+                    http.Client(),
+                    usernameController.text,
+                    emailController.text,
+                    passwordController.text,
+                    passwordAgainController.text);
+          
+                if (response == 201) {
+           
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) =>
+                              const BuildCharacterScreen())));
+                } else if (response is ResponseException) {
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(response.toString()),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: midPurple,

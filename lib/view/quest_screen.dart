@@ -4,14 +4,14 @@ import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/model/character.dart';
 
-class CharacterScreen extends StatefulWidget {
-  const CharacterScreen({super.key, required this.character});
+class QuestScreen extends StatefulWidget {
+  const QuestScreen({super.key, required this.character});
   final Character character;
   @override
-  State<CharacterScreen> createState() => _CharacterScreenState();
+  State<QuestScreen> createState() => _QuestScreenState();
 }
 
-class _CharacterScreenState extends State<CharacterScreen> {
+class _QuestScreenState extends State<QuestScreen> {
   @override
   void initState() {
     super.initState();

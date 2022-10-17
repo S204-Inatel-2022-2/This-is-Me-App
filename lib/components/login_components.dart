@@ -164,7 +164,7 @@ class _LoginButtonState extends State<LoginButton> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => CharacterScreen(
+            builder: (context) => QuestScreen(
                   character: character,
                 )));
   }

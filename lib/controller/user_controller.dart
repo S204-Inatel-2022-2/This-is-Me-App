@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:this_is_me/model/character.dart';
 import 'package:http/http.dart' as http;
+import 'package:this_is_me/model/exception/response_exception.dart';
 
 Future<dynamic> loginUser(
   http.Client client,
@@ -41,19 +42,13 @@ Future<dynamic> signUpUser(http.Client client, String username, String email,
       body: jsonEncode(<String, dynamic>{
         'userDtoInput': {'email': email, 'password': password},
         'verifyPassword': passwordAgain,
-        'characterName': username
+        'characterName': username,
+        'sex': null
       }));
 
-  if (response.statusCode != 302) {
-    return response.body;
+  if (response.statusCode != 201) {
+    return ResponseException.fromJson(jsonDecode(response.body)).message;
   }
-  final getCharacterPath = Uri.parse(response.headers['location'].toString());
-  final getCharacterToken = response.headers['set-cookie'];
-  final character = await client.get(getCharacterPath, headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Cookie': '$getCharacterToken',
-  });
 
-  return Character.fromJson(jsonDecode(character.body));
+  return response.statusCode;
 }

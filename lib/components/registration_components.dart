@@ -54,20 +54,21 @@ class UserNameField extends StatelessWidget {
       child: SizedBox(
           height: 50,
           child: TextField(
+              controller: usernameController,
               decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(15),
-            hintText: hint,
-            filled: true,
-            fillColor: inputField,
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(width: 3, color: inputField),
-              borderRadius: BorderRadius.circular(40),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(width: 3, color: inputField),
-              borderRadius: BorderRadius.circular(40),
-            ),
-          ))),
+                contentPadding: const EdgeInsets.all(15),
+                hintText: hint,
+                filled: true,
+                fillColor: inputField,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 3, color: inputField),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 3, color: inputField),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+              ))),
     );
   }
 }
@@ -105,60 +106,63 @@ class UserRegistrationInfo extends StatelessWidget {
           child: SizedBox(
               height: 50,
               child: TextField(
+                  controller: emailController,
                   decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(top: 15, left: 15),
-                hintText: emailHint,
-                filled: true,
-                fillColor: inputField,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ))),
+                    contentPadding: const EdgeInsets.only(top: 15, left: 15),
+                    hintText: emailHint,
+                    filled: true,
+                    fillColor: inputField,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ))),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
           child: SizedBox(
               height: 50,
               child: TextField(
+                  controller: passwordController,
                   decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(top: 15, left: 15),
-                hintText: passwordHint,
-                filled: true,
-                fillColor: inputField,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ))),
+                    contentPadding: const EdgeInsets.only(top: 15, left: 15),
+                    hintText: passwordHint,
+                    filled: true,
+                    fillColor: inputField,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ))),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
           child: SizedBox(
               height: 50,
               child: TextField(
+                  controller: passwordAgainController,
                   decoration: InputDecoration(
-                contentPadding: const EdgeInsets.only(top: 15, left: 15),
-                hintText: passwordAgainText,
-                filled: true,
-                fillColor: inputField,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: inputField),
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ))),
+                    contentPadding: const EdgeInsets.only(top: 15, left: 15),
+                    hintText: passwordAgainText,
+                    filled: true,
+                    fillColor: inputField,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ))),
         )
       ]),
     );
@@ -177,6 +181,12 @@ class RegistrationButton extends StatelessWidget {
           width: 150,
           child: ElevatedButton(
               onPressed: () {
+                signUpUser(
+                    http.Client(),
+                    usernameController.text,
+                    emailController.text,
+                    passwordController.text,
+                    passwordAgainController.text);
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: midPurple,

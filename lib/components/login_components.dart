@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/user_controller.dart';
 import 'package:this_is_me/model/character.dart';
-import 'package:this_is_me/view/character_screen.dart';
-
+import 'package:this_is_me/view/quest_screen.dart';
+import 'package:this_is_me/view/account/registration_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/view/account/registration_screen.dart';
 
@@ -129,7 +127,7 @@ class _LoginButtonState extends State<LoginButton> {
 
                 var character = await loginUser(http.Client(),
                     emailController.text, passwordController.text);
-                if (character != Character) {
+                if (character is! Character) {
                   return showDialog<void>(
                     context: context,
                     barrierDismissible: false, // user must tap button!
@@ -138,7 +136,7 @@ class _LoginButtonState extends State<LoginButton> {
                         character = 'Usuário inexistente ou senha inválida';
                       }
                       return AlertDialog(
-                        title: Text(character),
+                        title: Text(character.toString()),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Ok'),
@@ -151,6 +149,7 @@ class _LoginButtonState extends State<LoginButton> {
                     },
                   );
                 }
+              
                 goToCharacterScreen(character);
               },
               child: Text(

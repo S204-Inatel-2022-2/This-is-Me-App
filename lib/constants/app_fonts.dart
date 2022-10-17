@@ -28,4 +28,7 @@ var userRegistrationTitle = GoogleFonts.jura(
     fontSize: 18, color: litePurple, fontWeight: FontWeight.bold);
 var userRegistrationSub = GoogleFonts.jura(
     fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold);
-var registrationButton = GoogleFonts.jura(fontSize: 18, fontWeight: FontWeight.bold);
+var registrationButton =
+    GoogleFonts.jura(fontSize: 18, fontWeight: FontWeight.bold);
+var textForget =
+    GoogleFonts.jura(fontSize: 18, color: Colors.white, height: 1.8);

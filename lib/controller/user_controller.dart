@@ -46,7 +46,9 @@ Future<dynamic> signUpUser(http.Client client, String username, String email,
         'sex': null
       }));
 
-   print(ResponseException.fromJson(jsonDecode(response.body)).message);
+  if (response.statusCode != 201) {
+    return ResponseException.fromJson(jsonDecode(response.body)).message;
+  }
 
   return response.statusCode;
 }

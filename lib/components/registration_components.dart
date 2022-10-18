@@ -237,7 +237,7 @@ class _RegistrationButtonState extends State<RegistrationButton> {
                     barrierDismissible: false, // user must tap button!
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text(response.message),
+                        title: Text('${response.message}'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Ok'),

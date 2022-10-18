@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/user_controller.dart';
@@ -92,6 +93,19 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<String> _token;
+  Future<void> _incrementCounter() async {
+    final SharedPreferences prefs = await _prefs;
+    final String? token = prefs.getString('token');
+
+    setState(() {
+      _token = prefs.setString('token', token!).then((bool success) {
+        return _token;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(

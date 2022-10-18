@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
@@ -221,9 +224,8 @@ class _RegistrationButtonState extends State<RegistrationButton> {
                     emailController.text,
                     passwordController.text,
                     passwordAgainController.text);
-          
+
                 if (response == 201) {
-           
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -235,7 +237,7 @@ class _RegistrationButtonState extends State<RegistrationButton> {
                     barrierDismissible: false, // user must tap button!
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text(response.toString()),
+                        title: Text('${response.message}'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Ok'),

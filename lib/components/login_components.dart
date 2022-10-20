@@ -92,6 +92,7 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Padding(

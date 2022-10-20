@@ -1,23 +1,31 @@
-class Character {
-  final String id;
-  final String sex;
-  final String characterName;
+class Quest {
+  final String questId;
+  final String name;
+  final String skill;
+  final String startTime;
+  final String endTime;
+  final int duration;
   final int xp;
-  final int level;
 
-  Character(
-      {required this.id,
-      required this.sex,
-      required this.characterName,
-      required this.xp,
-      required this.level});
+  Quest({
+    required this.questId,
+    required this.name,
+    required this.skill,
+    required this.startTime,
+    required this.endTime,
+    required this.duration,
+    required this.xp,
+  });
 
-  factory Character.fromJson(Map<String, dynamic> json) {
-    return Character(
-        id: json['id'],
-        sex: json['sex'],
-        characterName: json['characterName'],
-        xp: json['xp'],
-        level: json['level']);
+  factory Quest.fromJson(Map<String, dynamic> json) {
+    return Quest(
+      questId: json['questId'],
+      name: json['name'],
+      skill: json['skill'],
+      startTime: json['startTime'],
+      endTime: json['endTime'],
+      duration: json['duration'],
+      xp: json['xp'],
+    );
   }
 }

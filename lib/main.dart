@@ -1,12 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:this_is_me/services/load_preferences.dart';
+// import 'package:this_is_me/services/load_preferences.dart';
 import 'package:this_is_me/view/account/login_screen.dart';
+import 'dart:convert';
 
-void main() {
+import 'package:flutter/foundation.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
+import 'package:this_is_me/controller/user_controller.dart';
+import 'package:this_is_me/model/character.dart';
+import 'package:this_is_me/view/account/login_screen.dart';
+import 'package:this_is_me/view/quest_screen.dart';
+import 'package:http/http.dart' as http;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = await SharedPreferences.getInstance();
+  final String? token = prefs.getString('token');
+
+  print('token: $token');
+  // Verifying if token exists
+  if (token == null) {
+    runApp(MaterialApp(
+      home: LoginScreen(),
+    ));
+  } else {
+    var response = await loadCharacter(http.Client(), token.toString());
+    print('response: $response');
+    Character character = Character.fromJson(jsonDecode(response));
+    print('character: ${character.characterName}');
+    runApp(MaterialApp(
+      home: QuestScreen(character: character),
+    ));
+  }
 // Add these 2 lines
-  // WidgetsFlutterBinding.ensureInitialized();
   // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
   //   SystemUiOverlay.bottom, //This line is used for showing the bottom bar
   // ]);
-  runApp(const MaterialApp(home: Home()));
 }

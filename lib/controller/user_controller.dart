@@ -64,9 +64,8 @@ Future<dynamic> signUpUser(http.Client client, String username, String email,
 Future<String> loadCharacter(
   http.Client client,
   String token,
-  String route,
 ) async {
-  final response = await client.get(Uri.parse(route), headers: {
+  final response = await client.get(Uri.parse('https://timeapibyredfoxghs.herokuapp.com/character/get-character'), headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'Cookie': token,

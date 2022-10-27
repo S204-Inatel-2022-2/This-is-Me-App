@@ -32,9 +32,9 @@ Future<dynamic> loginUser(
     'Cookie': '$getCharacterToken',
   });
 
-  print('persistindo dados');
+
   prefs.setString('token', getCharacterToken.toString());
-  prefs.setString('route', getCharacterPath.toString());
+
 
   return Character.fromJson(jsonDecode(character.body));
 }

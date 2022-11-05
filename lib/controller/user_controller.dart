@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:this_is_me/model/character.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/model/exception/response_exception.dart';
@@ -8,6 +9,8 @@ Future<dynamic> loginUser(
   String email,
   String password,
 ) async {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final SharedPreferences prefs = await _prefs;
   final response = await client.post(
       Uri.parse('https://timeapibyredfoxghs.herokuapp.com/user/login'),
       headers: <String, String>{
@@ -28,6 +31,10 @@ Future<dynamic> loginUser(
     'Accept': 'application/json',
     'Cookie': '$getCharacterToken',
   });
+
+
+  prefs.setString('token', getCharacterToken.toString());
+
 
   return Character.fromJson(jsonDecode(character.body));
 }
@@ -52,4 +59,17 @@ Future<dynamic> signUpUser(http.Client client, String username, String email,
   }
 
   return response.statusCode;
+}
+
+Future<String> loadCharacter(
+  http.Client client,
+  String token,
+) async {
+  final response = await client.get(Uri.parse('https://timeapibyredfoxghs.herokuapp.com/character/get-character'), headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Cookie': token,
+  });
+
+  return response.body;
 }

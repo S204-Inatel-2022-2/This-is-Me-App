@@ -1,6 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
+
+import '../constants/app_texts.dart';
 
 class TitleScreen extends StatelessWidget {
   const TitleScreen({super.key, required this.text});
@@ -28,11 +31,7 @@ class TitleScreen extends StatelessWidget {
 
 class RobotLogo extends StatelessWidget {
   const RobotLogo(
-      {super.key, required this.imagePath, required this.description});
-
-  final String imagePath;
-  final String description;
-
+      {super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -40,19 +39,20 @@ class RobotLogo extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.27,
+          Image.asset(
+            'assets/images/robozinho.png',
+            height: 170,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 30),
             child: SizedBox(
-                width: 300, child: Image.asset('assets/images/robozinho.png')),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
-            child: Text(
-              description,
-              style: textForget,
-              textAlign: TextAlign.center,
-            ),
-          ),
+                width: 200,
+                child: AutoSizeText(
+                  newPasswordText,
+                  style: registrationText,
+                  softWrap: true,
+                )),
+          )
         ],
       ),
     );

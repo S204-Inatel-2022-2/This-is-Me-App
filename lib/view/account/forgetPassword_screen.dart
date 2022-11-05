@@ -15,11 +15,7 @@ class ForgetPasswordScreen extends StatelessWidget {
         TitleScreen(
           text: 'ESQUECI A SENHA',
         ),
-        RobotLogo(
-          imagePath: 'assets/images/robozinho.png',
-          description:
-              'Digite seu email abaixo, enviarei um código de verificação para realizar a troca de senha.',
-        ),
+        RobotLogo(),
         UserLoginInput(
           textHint: 'EMAIL',
         ),

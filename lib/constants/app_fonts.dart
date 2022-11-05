@@ -43,3 +43,9 @@ var registrationButton =
     GoogleFonts.jura(fontSize: 18, fontWeight: FontWeight.bold);
 var textForget =
     GoogleFonts.jura(fontSize: 18, color: Colors.white, height: 1.8);
+
+// ForgetPassword Screen
+var forgetText = GoogleFonts.jura(
+    fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold);
+var textCodeForget = GoogleFonts.jura(
+    fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold);

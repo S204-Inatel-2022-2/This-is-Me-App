@@ -15,10 +15,7 @@ class NewPasswordScreen extends StatelessWidget {
         TitleScreen(
           text: 'NOVA SENHA',
         ),
-        RobotLogo(
-          imagePath: 'assets/images/robozinho.png',
-          description: 'Digite sua nova senha :)',
-        ),
+        RobotLogo(),
         PasswordInput(
           textHint: 'SENHA',
         ),

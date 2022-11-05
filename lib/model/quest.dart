@@ -4,7 +4,8 @@ class Quest {
   final String skill;
   final String startTime;
   final String endTime;
-  final int duration;
+  final String duration;
+  final String color;
   final int xp;
 
   Quest({
@@ -14,6 +15,7 @@ class Quest {
     required this.startTime,
     required this.endTime,
     required this.duration,
+    required this.color,
     required this.xp,
   });
 
@@ -25,6 +27,7 @@ class Quest {
       startTime: json['startTime'],
       endTime: json['endTime'],
       duration: json['duration'],
+      color: json['color'],
       xp: json['xp'],
     );
   }

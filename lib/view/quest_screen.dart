@@ -1,5 +1,6 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
+import 'package:this_is_me/components/quest_components.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/quest_controller.dart';
@@ -65,7 +66,7 @@ class _QuestScreenState extends State<QuestScreen> {
                                   padding: const EdgeInsets.only(left: 15),
                                   child: Text(
                                     'Quests do Dia',
-                                    style: questTitle,
+                                    style: questContainerTitle,
                                   )),
                               const Padding(
                                   padding: EdgeInsets.only(left: 120),
@@ -75,7 +76,7 @@ class _QuestScreenState extends State<QuestScreen> {
                                     child: Icon(Icons.add),
                                   ))
                             ]),
-                        // QuestList()
+                        Expanded(child: QuestList())
                       ]),
                     ),
                   ))),
@@ -202,30 +203,5 @@ class NavigationButtons extends StatelessWidget {
                 Text('Perfil', style: navigationButtonsLabels)
               ])),
         ]));
-  }
-}
-
-class QuestList extends StatelessWidget {
-  const QuestList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder<List<Quest>>(
-        future: getTodayQuests(http.Client()),
-        builder: ((context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error!.toString()),
-            );
-          } else if (snapshot.hasData) {
-            return Center(
-              child: Text(snapshot.data!.toString()),
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        }),
-      ),
-    );
   }
 }

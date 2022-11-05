@@ -7,17 +7,20 @@ class Quest {
   final String duration;
   final String color;
   final int xp;
+  final int total;
+  final int finalized;
 
-  Quest({
-    required this.questId,
-    required this.name,
-    required this.skill,
-    required this.startTime,
-    required this.endTime,
-    required this.duration,
-    required this.color,
-    required this.xp,
-  });
+  Quest(
+      {required this.questId,
+      required this.name,
+      required this.skill,
+      required this.startTime,
+      required this.endTime,
+      required this.duration,
+      required this.color,
+      required this.xp,
+      required this.total,
+      required this.finalized});
 
   factory Quest.fromJson(Map<String, dynamic> json) {
     return Quest(
@@ -29,6 +32,8 @@ class Quest {
       duration: json['duration'],
       color: json['color'],
       xp: json['xp'],
+      total: json['total'],
+      finalized: json['finalized']
     );
   }
 }

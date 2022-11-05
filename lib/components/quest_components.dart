@@ -9,26 +9,24 @@ class QuestList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureBuilder<List<Quest>>(
-        future: getTodayQuests(http.Client()),
-        builder: ((context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error!.toString()),
-            );
-          } else if (snapshot.hasData) {
-            return QuestLoader(quests: snapshot.data!);
-          }
-          return const Center(child: CircularProgressIndicator());
-        }),
-      ),
+    return FutureBuilder<List<Quest>>(
+      future: getTodayQuests(http.Client()),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error!.toString()),
+          );
+        } else if (snapshot.hasData) {
+          return QuestLoader(quests: snapshot.data!);
+        }
+        return const Center(child: CircularProgressIndicator());
+      }),
     );
   }
 }
 
 class QuestLoader extends StatefulWidget {
-  QuestLoader({super.key, required this.quests});
+  const QuestLoader({super.key, required this.quests});
 
   final List<Quest> quests;
 
@@ -42,6 +40,7 @@ class _QuestLoaderState extends State<QuestLoader> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       itemCount: widget.quests.length,
       itemBuilder: (context, index) {
         return Padding(
@@ -49,7 +48,7 @@ class _QuestLoaderState extends State<QuestLoader> {
             child: Container(
               decoration: BoxDecoration(
                   color: Color(int.parse(widget.quests[index].color)),
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
+                  borderRadius: const BorderRadius.all(Radius.circular(15))),
               child: CheckboxListTile(
                   controlAffinity: ListTileControlAffinity.leading,
                   isThreeLine: true,
@@ -70,9 +69,35 @@ class _QuestLoaderState extends State<QuestLoader> {
                                   0.5
                               ? Colors.black
                               : Colors.white)),
-                  // secondary: Column(
-                  //   children: [Text('1'), Text('2'), Text('3')],
-                  // ),
+                  secondary: Column(
+                    children: [
+                      Text(
+                          '${widget.quests[index].finalized}/${widget.quests[index].total}',
+                          style: GoogleFonts.jura(
+                              color:
+                                  Color(int.parse(widget.quests[index].color))
+                                              .computeLuminance() >
+                                          0.5
+                                      ? Colors.black
+                                      : Colors.white)),
+                      Text(widget.quests[index].duration,
+                          style: GoogleFonts.jura(
+                              color:
+                                  Color(int.parse(widget.quests[index].color))
+                                              .computeLuminance() >
+                                          0.5
+                                      ? Colors.black
+                                      : Colors.white)),
+                      Text('${widget.quests[index].xp}XP',
+                          style: GoogleFonts.jura(
+                              color:
+                                  Color(int.parse(widget.quests[index].color))
+                                              .computeLuminance() >
+                                          0.5
+                                      ? Colors.black
+                                      : Colors.white))
+                    ],
+                  ),
                   onChanged: (bool? value) {
                     setState(() {
                       isSelected = value!;

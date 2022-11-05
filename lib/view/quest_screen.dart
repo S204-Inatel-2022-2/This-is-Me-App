@@ -46,10 +46,14 @@ class _QuestScreenState extends State<QuestScreen> {
                         const RightColumn()
                       ],
                     )),
-                const NavigationButtons()
+                
               ])),
+              const Positioned(
+                left: 30,
+                bottom:30,
+                child: NavigationButtons()),
           Positioned(
-              left: 25,
+              left: 34,
               top: 270,
               bottom: 50,
               child: Padding(
@@ -143,10 +147,8 @@ class NavigationButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding:
-            const EdgeInsets.only(top: 70, left: 25, right: 25, bottom: 20),
-        child: Row(children: [
+    return 
+         Row(children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Column(children: [
@@ -202,6 +204,6 @@ class NavigationButtons extends StatelessWidget {
                 ),
                 Text('Perfil', style: navigationButtonsLabels)
               ])),
-        ]));
+        ]);
   }
 }

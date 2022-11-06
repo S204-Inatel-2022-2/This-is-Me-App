@@ -164,7 +164,6 @@ class _LoginButtonState extends State<LoginButton> {
                     },
                   );
                 }
-
                 goToCharacterScreen(character);
               },
               child: Text(
@@ -175,12 +174,9 @@ class _LoginButtonState extends State<LoginButton> {
   }
 
   void goToCharacterScreen(Character character) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => QuestScreen(
-                  character: character,
-                )));
+    runApp(MaterialApp(
+      home: QuestScreen(character: character),
+    ));
   }
 }
 

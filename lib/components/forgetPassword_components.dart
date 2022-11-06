@@ -1,8 +1,13 @@
+// ignore_for_file: use_build_context_synchronously, depend_on_referenced_packages, file_names
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/constants/app_texts.dart';
 import 'package:flutter/material.dart';
+import 'package:this_is_me/controller/forgetPassword_controller.dart';
+import 'package:http/http.dart' as http;
+import 'package:this_is_me/view/account/newPassword_screen.dart';
 
 // TextEditingController
 TextEditingController emailController = TextEditingController();
@@ -64,7 +69,7 @@ class ForgotEmailInput extends StatelessWidget {
                   ),
                 ))),
       ),
-      SendCodeButton()
+      const SendCodeButton()
     ]);
   }
 }
@@ -105,6 +110,26 @@ class _SendCodeButtonState extends State<SendCodeButton> {
                       );
                     },
                   );
+                } else {
+                  var sendCodeRequest =
+                      await sendCode(http.Client(), emailController.text);
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(sendCodeRequest),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -131,11 +156,11 @@ class CodeVerificationInput extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 50),
+            padding: const EdgeInsets.symmetric(vertical: 50),
             child: Text(
-          'INSIRA O CÓDIGO RECEBIDO NO CAMPO ABAIXO',
-          style: textCodeForget,
-        )),
+              'INSIRA O CÓDIGO RECEBIDO NO CAMPO ABAIXO',
+              style: textCodeForget,
+            )),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
           child: SizedBox(
@@ -157,10 +182,12 @@ class CodeVerificationInput extends StatelessWidget {
                     ),
                   ))),
         ),
-      CodeVerifyButton()],
+        const CodeVerifyButton()
+      ],
     );
   }
 }
+
 class CodeVerifyButton extends StatefulWidget {
   const CodeVerifyButton({super.key});
 
@@ -197,6 +224,36 @@ class _CodeVerifyButtonState extends State<CodeVerifyButton> {
                       );
                     },
                   );
+                } else {
+                  var verifyCodeRequest = await verifyCode(
+                      http.Client(),
+                      emailController.text,
+                      int.parse(verificationCodeController.text));
+                  if (verifyCodeRequest) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NewPasswordScreen()));
+                  } else {
+                    verificationCodeController.clear();
+                    showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Token inválido'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(

@@ -14,55 +14,27 @@ import '../constants/app_texts.dart';
 TextEditingController passwordController = TextEditingController();
 TextEditingController verificationPasswordController = TextEditingController();
 
-class TitleScreen extends StatelessWidget {
-  const TitleScreen({super.key, required this.text});
-  final String text;
+class WelcomeNewPassword extends StatelessWidget {
+  const WelcomeNewPassword({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-        child: Expanded(
-      child: Row(
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Text(
-              text,
-              style: screenTitle,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    ));
-  }
-}
-
-class RobotLogo extends StatelessWidget {
-  const RobotLogo({super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 80, bottom: 50),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/robozinho.png',
-            height: 170,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+      child: Row(children: [
+        Image.asset(
+          'assets/images/robozinho.png',
+          height: 170,
+        ),
+        Padding(
+            padding: const EdgeInsets.only(left: 20),
             child: SizedBox(
-                width: 200,
+                width: 150,
                 child: AutoSizeText(
                   newPasswordText,
-                  style: registrationText,
-                  softWrap: true,
-                )),
-          )
-        ],
-      ),
+                  style: forgotPasswordMessage,
+                )))
+      ]),
     );
   }
 }
@@ -78,6 +50,7 @@ class PasswordInput extends StatelessWidget {
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         TextField(
             controller: passwordController,
+            obscureText: true,
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
@@ -105,6 +78,7 @@ class VerifyPasswordInput extends StatelessWidget {
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         TextField(
             controller: verificationPasswordController,
+            obscureText: true,
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,

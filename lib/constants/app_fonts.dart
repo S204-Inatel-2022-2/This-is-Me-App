@@ -16,7 +16,7 @@ var characterLevel = GoogleFonts.jura(
     fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
 var characterName = GoogleFonts.jura(
     fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
-var questTitle = GoogleFonts.jura(
+var questContainerTitle = GoogleFonts.jura(
     fontSize: 16,
     color: lightPurple,
     fontWeight: FontWeight.bold,
@@ -29,7 +29,9 @@ var questTitle = GoogleFonts.jura(
     ]);
 var navigationButtonsLabels = GoogleFonts.jura(
     fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold);
-
+var questTile = GoogleFonts.jura(
+    fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
+    
 // Registration Screen
 var registrationTitle = GoogleFonts.jura(
     fontSize: 25, color: lightPurple, fontWeight: FontWeight.bold);

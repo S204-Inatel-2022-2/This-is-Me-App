@@ -16,7 +16,7 @@ var characterLevel = GoogleFonts.jura(
     fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
 var characterName = GoogleFonts.jura(
     fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
-var questTitle = GoogleFonts.jura(
+var questContainerTitle = GoogleFonts.jura(
     fontSize: 16,
     color: lightPurple,
     fontWeight: FontWeight.bold,
@@ -29,7 +29,9 @@ var questTitle = GoogleFonts.jura(
     ]);
 var navigationButtonsLabels = GoogleFonts.jura(
     fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold);
-
+var questTile = GoogleFonts.jura(
+    fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
+    
 // Registration Screen
 var registrationTitle = GoogleFonts.jura(
     fontSize: 25, color: lightPurple, fontWeight: FontWeight.bold);
@@ -45,7 +47,9 @@ var textForget =
     GoogleFonts.jura(fontSize: 18, color: Colors.white, height: 1.8);
 
 // ForgetPassword Screen
-var forgetText = GoogleFonts.jura(
-    fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold);
+var forgetTitle = GoogleFonts.jura(
+    fontSize: 20, color: lightPurple, fontWeight: FontWeight.bold);
+var forgotPasswordMessage = GoogleFonts.jura(
+    fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold);
 var textCodeForget = GoogleFonts.jura(
-    fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold);
+    fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold);

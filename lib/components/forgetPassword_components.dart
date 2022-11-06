@@ -1,88 +1,71 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
 import 'package:this_is_me/constants/app_colors.dart';
-import 'package:this_is_me/view/account/newPassword_screen.dart';
+import 'package:this_is_me/constants/app_fonts.dart';
+import 'package:this_is_me/constants/app_texts.dart';
+import 'package:flutter/material.dart';
 
-import '../constants/app_fonts.dart';
-import '../constants/app_texts.dart';
+// TextEditingController
+TextEditingController emailController = TextEditingController();
+TextEditingController verificationCodeController = TextEditingController();
 
-class TitleScreen extends StatelessWidget {
-  const TitleScreen({super.key, required this.text});
-  final String text;
+class WelcomeForgotPassword extends StatelessWidget {
+  const WelcomeForgotPassword({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-        child: Expanded(
-      child: Row(
-        children: [
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Text(
-              text,
-              style: screenTitle,
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ],
-      ),
-    ));
-  }
-}
-
-class RobotLogo extends StatelessWidget {
-  const RobotLogo(
-      {super.key});
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/robozinho.png',
-            height: 170,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
+      child: Row(children: [
+        Image.asset(
+          'assets/images/robozinho.png',
+          height: 170,
+        ),
+        Padding(
+            padding: const EdgeInsets.only(left: 20),
             child: SizedBox(
-                width: 200,
+                width: 150,
                 child: AutoSizeText(
                   forgetPasswordText,
-                  style: registrationText,
-                  softWrap: true,
-                )),
-          )
-        ],
-      ),
+                  style: forgotPasswordMessage,
+                )))
+      ]),
     );
   }
 }
 
-class UserLoginInput extends StatelessWidget {
-  const UserLoginInput({super.key, required this.textHint});
-  final String textHint;
+class ForgotEmailInput extends StatelessWidget {
+  const ForgotEmailInput({
+    super.key,
+    required this.emailHint,
+  });
 
+  final String emailHint;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        TextField(
-            decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          hintText: textHint,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(40),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(40),
-          ),
-        )),
-      ]),
-    );
+    return Column(children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
+        child: SizedBox(
+            height: 50,
+            child: TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.only(top: 15, left: 15),
+                  hintText: emailHint,
+                  filled: true,
+                  fillColor: inputField,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 3, color: inputField),
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 3, color: inputField),
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                ))),
+      ),
+      SendCodeButton()
+    ]);
   }
 }
 
@@ -97,77 +80,133 @@ class _SendCodeButtonState extends State<SendCodeButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 0),
-      child: SizedBox(
+        padding: const EdgeInsets.only(top: 20),
+        child: SizedBox(
           height: 50,
-          width: 190,
+          width: 180,
           child: ElevatedButton(
+              onPressed: () async {
+                //verifying if the fields arent empty
+                if (emailController.text.isEmpty) {
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Preencha os campos corretamente'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: midPurple,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-              onPressed: () {},
               child: Text(
                 'ENVIAR CÓDIGO',
-                style: loginButton,
-              ))),
-    );
-  }
-}
-
-class TextDescription extends StatelessWidget {
-  const TextDescription({super.key, required this.description});
-  final String description;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 40, bottom: 20),
-        child: Expanded(
-          child: Row(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: AutoSizeText(
-                  description,
-                  style: textCodeForget,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
+                style: registrationButton,
+              )),
         ));
   }
 }
 
-class VerifyCodeButton extends StatefulWidget {
-  const VerifyCodeButton({super.key});
+class CodeVerificationInput extends StatelessWidget {
+  const CodeVerificationInput({
+    super.key,
+    required this.codeVerificationHint,
+  });
+
+  final String codeVerificationHint;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 50),
+            child: Text(
+          'INSIRA O CÓDIGO RECEBIDO NO CAMPO ABAIXO',
+          style: textCodeForget,
+        )),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 8),
+          child: SizedBox(
+              height: 50,
+              child: TextField(
+                  controller: verificationCodeController,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(top: 15, left: 15),
+                    hintText: codeVerificationHint,
+                    filled: true,
+                    fillColor: inputField,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(width: 3, color: inputField),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ))),
+        ),
+      CodeVerifyButton()],
+    );
+  }
+}
+class CodeVerifyButton extends StatefulWidget {
+  const CodeVerifyButton({super.key});
 
   @override
-  State<VerifyCodeButton> createState() => _VerifyCodeButtonState();
+  State<CodeVerifyButton> createState() => _CodeVerifyButtonState();
 }
 
-class _VerifyCodeButtonState extends State<VerifyCodeButton> {
+class _CodeVerifyButtonState extends State<CodeVerifyButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: SizedBox(
+        padding: const EdgeInsets.only(top: 20),
+        child: SizedBox(
           height: 50,
-          width: 140,
+          width: 180,
           child: ElevatedButton(
+              onPressed: () async {
+                //verifying if the fields arent empty
+                if (verificationCodeController.text.isEmpty) {
+                  return showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Preencha os campos corretamente'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Ok'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: midPurple,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NewPasswordScreen())),
               child: Text(
-                'VERIFICAR',
-                style: loginButton,
-              ))),
-    );
+                'ENVIAR CÓDIGO',
+                style: registrationButton,
+              )),
+        ));
   }
 }

@@ -214,7 +214,7 @@ class NewAccountButton extends StatelessWidget {
       padding: const EdgeInsets.only(top: 20),
       child: TextButton(
           onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CreateCharacterScreen())),
+              MaterialPageRoute(builder: (context) => RegistrationScreen())),
           child: Text(
             message,
             style: newAccountButton,

@@ -53,3 +53,7 @@ var forgotPasswordMessage = GoogleFonts.jura(
     fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold);
 var textCodeForget = GoogleFonts.jura(
     fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold);
+
+// CreateCharacter Screen
+var createCharacterName =  GoogleFonts.jura(
+    fontSize: 20, color: lightPurple, fontWeight: FontWeight.bold);    

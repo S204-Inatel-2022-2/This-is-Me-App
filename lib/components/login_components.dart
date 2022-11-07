@@ -5,6 +5,7 @@ import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/user_controller.dart';
 import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/view/account/forgetPassword_screen.dart';
+import 'package:this_is_me/view/character_screen.dart';
 import 'package:this_is_me/view/quest_screen.dart';
 import 'package:this_is_me/view/account/registration_screen.dart';
 import 'package:http/http.dart' as http;
@@ -212,10 +213,8 @@ class NewAccountButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: TextButton(
-          onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const RegistrationScreen())),
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => RegistrationScreen())),
           child: Text(
             message,
             style: newAccountButton,

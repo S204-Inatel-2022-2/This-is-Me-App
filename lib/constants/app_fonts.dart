@@ -21,7 +21,7 @@ var questContainerTitle = GoogleFonts.jura(
     color: lightPurple,
     fontWeight: FontWeight.bold,
     shadows: <Shadow>[
-      Shadow(
+      const Shadow(
         offset: Offset(1, 1),
         blurRadius: 3.0,
         color: Color.fromARGB(255, 0, 0, 0),
@@ -31,7 +31,7 @@ var navigationButtonsLabels = GoogleFonts.jura(
     fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold);
 var questTile = GoogleFonts.jura(
     fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
-    
+
 // Registration Screen
 var registrationTitle = GoogleFonts.jura(
     fontSize: 25, color: lightPurple, fontWeight: FontWeight.bold);

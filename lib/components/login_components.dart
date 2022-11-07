@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/user_controller.dart';
 import 'package:this_is_me/model/character.dart';
+import 'package:this_is_me/model/quest.dart';
 import 'package:this_is_me/view/account/forgetPassword_screen.dart';
 import 'package:this_is_me/view/quest_screen.dart';
 import 'package:this_is_me/view/account/registration_screen.dart';
@@ -119,52 +121,8 @@ class _LoginButtonState extends State<LoginButton> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               onPressed: () async {
-                if (emailController.text.isEmpty ||
-                    passwordController.text.isEmpty) {
-                  return showDialog<void>(
-                    context: context,
-                    barrierDismissible: false, // user must tap button!
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Preencha os campos corretamente'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Ok'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-
-                var character = await loginUser(http.Client(),
-                    emailController.text, passwordController.text);
-                if (character is! Character) {
-                  return showDialog<void>(
-                    context: context,
-                    barrierDismissible: false, // user must tap button!
-                    builder: (BuildContext context) {
-                      if (character == 'Bad credentials') {
-                        character = 'Usuário inexistente ou senha inválida';
-                      }
-                      return AlertDialog(
-                        title: Text(character.toString()),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Ok'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
-                goToCharacterScreen(character);
+                print('button pressed');
+                goToCharacterScreen();
               },
               child: Text(
                 'LOGIN',
@@ -173,10 +131,9 @@ class _LoginButtonState extends State<LoginButton> {
     );
   }
 
-  void goToCharacterScreen(Character character) {
-    runApp(MaterialApp(
-      home: QuestScreen(character: character),
-    ));
+  void goToCharacterScreen() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const CharacterLoader()));
   }
 }
 
@@ -221,5 +178,32 @@ class NewAccountButton extends StatelessWidget {
             style: newAccountButton,
           )),
     );
+  }
+}
+
+class CharacterLoader extends StatelessWidget {
+  const CharacterLoader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    print('calling loader');
+    return FutureBuilder<Character>(
+      future: loginUser(
+          http.Client(), emailController.text, passwordController.text),
+      builder: (context, snapshot) {
+        print('calling futurebuilder');
+        if (snapshot.hasData) {
+          print('has data');
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => QuestScreen(character: snapshot.data!)),
+              (route) => true);
+        }
+        return LoadingAnimationWidget.halfTriangleDot(
+            color: mainLoadingAnimationColor, size: 40);
+      },
+    );
+    ;
   }
 }

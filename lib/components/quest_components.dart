@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/controller/quest_controller.dart';
 import 'package:this_is_me/model/quest.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +21,9 @@ class QuestList extends StatelessWidget {
         } else if (snapshot.hasData) {
           return QuestLoader(quests: snapshot.data!);
         }
-        return const Center(child: CircularProgressIndicator());
+        return Center(
+            child: LoadingAnimationWidget.halfTriangleDot(
+                color: mainLoadingAnimationColor, size: 40));
       }),
     );
   }

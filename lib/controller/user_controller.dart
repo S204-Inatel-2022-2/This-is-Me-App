@@ -4,7 +4,7 @@ import 'package:this_is_me/model/character.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/model/exception/response_exception.dart';
 
-Future<dynamic> loginUser(
+Future<Character> loginUser(
   http.Client client,
   String email,
   String password,
@@ -21,9 +21,9 @@ Future<dynamic> loginUser(
         'password': password,
       }));
 
-  if (response.statusCode != 302) {
-    return response.body;
-  }
+  // if (response.statusCode != 302) {
+  //   return response.body;
+  // }
   final getCharacterPath = Uri.parse(response.headers['location'].toString());
   final getCharacterToken = response.headers['set-cookie'];
   final character = await client.get(getCharacterPath, headers: {
@@ -32,10 +32,10 @@ Future<dynamic> loginUser(
     'Cookie': '$getCharacterToken',
   });
 
+  // prefs.setString('token', getCharacterToken.toString());
 
-  prefs.setString('token', getCharacterToken.toString());
-
-
+  print('body');
+  print(character.body);
   return Character.fromJson(jsonDecode(character.body));
 }
 
@@ -47,7 +47,7 @@ Future<dynamic> signUpUser(http.Client client, String username, String email,
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'email': email, 
+        'email': email,
         'password': password,
         'verifyPassword': passwordAgain,
         'characterName': username
@@ -65,11 +65,14 @@ Future<String> loadCharacter(
   http.Client client,
   String token,
 ) async {
-  final response = await client.get(Uri.parse('https://timeapibyredfoxghs.herokuapp.com/character/get-character'), headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Cookie': token,
-  });
+  final response = await client.get(
+      Uri.parse(
+          'https://timeapibyredfoxghs.herokuapp.com/character/get-character'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Cookie': token,
+      });
 
   return response.body;
 }

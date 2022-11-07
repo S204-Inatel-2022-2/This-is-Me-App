@@ -47,10 +47,10 @@ Future<dynamic> signUpUser(http.Client client, String username, String email,
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'userDtoInput': {'email': email, 'password': password},
+        'email': email, 
+        'password': password,
         'verifyPassword': passwordAgain,
-        'characterName': username,
-        'sex': null
+        'characterName': username
       }));
 
   if (response.statusCode != 201) {

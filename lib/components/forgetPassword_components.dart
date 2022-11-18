@@ -248,20 +248,21 @@ class _CodeVerifyButtonState extends State<CodeVerifyButton> {
                 } else {
                   var verifyCodeRequest = await verifyCode(
                       http.Client(),
+                      emailController.text,
                       int.parse(verificationCodeController.text));
-                  if (verifyCodeRequest) {
+                  if (verifyCodeRequest == 200) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const NewPasswordScreen()));
-                  } else {
+                  } else if (verifyCodeRequest is ResponseException) {
                     verificationCodeController.clear();
                     showDialog<void>(
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('Token inválido'),
+                          title: Text('${verifyCodeRequest.message}'),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('Ok'),
@@ -281,7 +282,7 @@ class _CodeVerifyButtonState extends State<CodeVerifyButton> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               child: Text(
-                'ENVIAR CÓDIGO',
+                'VERIFICAR',
                 style: registrationButton,
               )),
         ));

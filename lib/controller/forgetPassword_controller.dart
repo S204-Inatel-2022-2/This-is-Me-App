@@ -27,19 +27,31 @@ Future<dynamic> sendCode(
 
 String getTokenNewPassword = '';
 
-Future<dynamic> verifyCode(http.Client client, int code) async {
+Future<dynamic> verifyCode(http.Client client, String email ,int code) async {
+  
+
+  if (getEmail == '' && email == '') {
+    return ResponseException(
+        message: 'Por favor, campo email deve ser preenchido.\n\nobs: caso já tenha um código de verificação valido, não é necessario clicar no botão "enviar código" novamente.'); 
+  }
+
+  email = email == '' ? getEmail : email;
+
   final response = await client.post(
       Uri.parse('https://timeapibyredfoxghs.herokuapp.com'
           '/user/reset/verify-code-reset'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{'email': getEmail, 'number': code}));
-  if (response.statusCode == 200) {
-    getTokenNewPassword = response.headers['set-cookie']!;
-    return true;
+      body: jsonEncode(<String, dynamic>{'email': email, 'number': code}));
+
+  if (response.statusCode != 200) {
+    return ResponseException.fromJson(
+        jsonDecode((utf8.decode(response.bodyBytes))));
   }
-  return false;
+
+  getTokenNewPassword = jsonDecode(response.body)['get-cookie'];
+  return response.statusCode;
 }
 
 Future<dynamic> newPassword(

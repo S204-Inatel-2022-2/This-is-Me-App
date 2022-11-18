@@ -142,10 +142,10 @@ class _ConfirmButtonState extends State<ConfirmButton> {
                       passwordController.text,
                       verificationPasswordController.text);
                   if (response == 200) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LoginScreen()));
+                    Navigator.pushAndRemoveUntil(
+                      context, 
+                      MaterialPageRoute(builder: (_) => const LoginScreen()), 
+                      (route) => false);
                   } else {
                     return showDialog<void>(
                       context: context,
@@ -172,5 +172,17 @@ class _ConfirmButtonState extends State<ConfirmButton> {
                 style: loginButton,
               ))),
     );
+  }
+
+  void goToLoginScreen() {
+    
+    print('entrou no goToLoginScreen');
+    Navigator.pushNamedAndRemoveUntil(
+        context, '/login', (Route<dynamic> route) => false);
+    // Navigator.push(
+    //     context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    // runApp(const MaterialApp(
+    //   home: LoginScreen(),
+    // ));
   }
 }

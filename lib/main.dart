@@ -16,7 +16,7 @@ Future<void> main() async {
   final String? token = prefs.getString('token');
 
   // Verifying if token exists
-  if (token == null) {
+  if (token == null || token == '') {
     runApp(const MaterialApp(
       home: LoginScreen(),
     ));

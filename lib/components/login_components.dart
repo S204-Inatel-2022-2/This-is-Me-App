@@ -94,6 +94,7 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
+
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<String> _token;
   Future<void> _incrementCounter() async {
@@ -165,7 +166,7 @@ class _LoginButtonState extends State<LoginButton> {
                     },
                   );
                 }
-                goToCharacterScreen(character);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => QuestScreen(character: character,)), (route) => false);
               },
               child: Text(
                 'LOGIN',

@@ -7,6 +7,7 @@ import 'package:this_is_me/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 import 'package:this_is_me/controller/forgetPassword_controller.dart';
 import 'package:http/http.dart' as http;
+import 'package:this_is_me/model/exception/response_exception.dart';
 import 'package:this_is_me/view/account/newPassword_screen.dart';
 
 // TextEditingController
@@ -98,7 +99,7 @@ class _SendCodeButtonState extends State<SendCodeButton> {
                     barrierDismissible: false, // user must tap button!
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Preencha os campos corretamente'),
+                        title: const Text('Preencha os campos corretamente!'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Ok'),
@@ -110,26 +111,46 @@ class _SendCodeButtonState extends State<SendCodeButton> {
                       );
                     },
                   );
-                } else {
-                  var sendCodeRequest =
+                }else {
+                  var response =
                       await sendCode(http.Client(), emailController.text);
-                  return showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(sendCodeRequest),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Ok'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  if (response is String) {
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(response),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }else if (response is ResponseException) {
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('${response.message}'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -229,19 +250,19 @@ class _CodeVerifyButtonState extends State<CodeVerifyButton> {
                       http.Client(),
                       emailController.text,
                       int.parse(verificationCodeController.text));
-                  if (verifyCodeRequest) {
+                  if (verifyCodeRequest == 200) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const NewPasswordScreen()));
-                  } else {
+                  } else if (verifyCodeRequest is ResponseException) {
                     verificationCodeController.clear();
                     showDialog<void>(
                       context: context,
                       barrierDismissible: false,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: const Text('Token inválido'),
+                          title: Text('${verifyCodeRequest.message}'),
                           actions: <Widget>[
                             TextButton(
                               child: const Text('Ok'),
@@ -261,7 +282,7 @@ class _CodeVerifyButtonState extends State<CodeVerifyButton> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               child: Text(
-                'ENVIAR CÓDIGO',
+                'VERIFICAR',
                 style: registrationButton,
               )),
         ));

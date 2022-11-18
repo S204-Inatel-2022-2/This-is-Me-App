@@ -24,6 +24,7 @@ Future<dynamic> loginUser(
   if (response.statusCode != 302) {
     return response.body;
   }
+
   final getCharacterPath = Uri.parse(response.headers['location'].toString());
   final getCharacterToken = response.headers['set-cookie'];
   final character = await client.get(getCharacterPath, headers: {
@@ -34,7 +35,6 @@ Future<dynamic> loginUser(
 
 
   prefs.setString('token', getCharacterToken.toString());
-
 
   return Character.fromJson(jsonDecode(character.body));
 }

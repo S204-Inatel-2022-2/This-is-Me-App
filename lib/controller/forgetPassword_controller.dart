@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:this_is_me/model/exception/response_exception.dart';
 
 Future<dynamic> sendCode(
   http.Client client,
@@ -13,6 +14,12 @@ Future<dynamic> sendCode(
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       });
+
+  if (response.statusCode != 200) {
+    return ResponseException.fromJson(
+        jsonDecode((utf8.decode(response.bodyBytes))));
+  }
+  
   return response.body;
 }
 

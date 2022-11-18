@@ -7,6 +7,7 @@ import 'package:this_is_me/constants/app_texts.dart';
 import 'package:flutter/material.dart';
 import 'package:this_is_me/controller/forgetPassword_controller.dart';
 import 'package:http/http.dart' as http;
+import 'package:this_is_me/model/exception/response_exception.dart';
 import 'package:this_is_me/view/account/newPassword_screen.dart';
 
 // TextEditingController
@@ -111,25 +112,45 @@ class _SendCodeButtonState extends State<SendCodeButton> {
                     },
                   );
                 } else {
-                  var sendCodeRequest =
+                  var response =
                       await sendCode(http.Client(), emailController.text);
-                  return showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(sendCodeRequest),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Ok'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  if (response == 200) {
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(response),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }else{
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('${response.message}'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Ok'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(

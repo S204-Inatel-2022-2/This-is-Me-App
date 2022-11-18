@@ -97,10 +97,12 @@ class _LoginButtonState extends State<LoginButton> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<String> _token;
   Future<void> _incrementCounter() async {
+    print('LoginButton: pressed');
     final SharedPreferences prefs = await _prefs;
     final String? token = prefs.getString('token');
 
     setState(() {
+      print('LoginButton: token: $token');
       _token = prefs.setString('token', token!).then((bool success) {
         return _token;
       });

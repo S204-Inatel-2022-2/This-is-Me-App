@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/model/exception/response_exception.dart';
 
+String getEmail = '';
+
 Future<dynamic> sendCode(
   http.Client client,
   String email,
@@ -19,20 +21,20 @@ Future<dynamic> sendCode(
     return ResponseException.fromJson(
         jsonDecode((utf8.decode(response.bodyBytes))));
   }
-  
+  getEmail = email;
   return response.body;
 }
 
 String getTokenNewPassword = '';
 
-Future<dynamic> verifyCode(http.Client client, String email, int code) async {
+Future<dynamic> verifyCode(http.Client client, int code) async {
   final response = await client.post(
       Uri.parse('https://timeapibyredfoxghs.herokuapp.com'
           '/user/reset/verify-code-reset'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, dynamic>{'email': email, 'number': code}));
+      body: jsonEncode(<String, dynamic>{'email': getEmail, 'number': code}));
   if (response.statusCode == 200) {
     getTokenNewPassword = response.headers['set-cookie']!;
     return true;

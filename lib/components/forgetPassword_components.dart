@@ -99,7 +99,7 @@ class _SendCodeButtonState extends State<SendCodeButton> {
                     barrierDismissible: false, // user must tap button!
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text('Preencha os campos corretamente'),
+                        title: const Text('Preencha os campos corretamente!'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('Ok'),
@@ -111,10 +111,10 @@ class _SendCodeButtonState extends State<SendCodeButton> {
                       );
                     },
                   );
-                } else {
+                }else {
                   var response =
                       await sendCode(http.Client(), emailController.text);
-                  if (response == 200) {
+                  if (response is String) {
                     return showDialog<void>(
                       context: context,
                       barrierDismissible: false,
@@ -132,7 +132,7 @@ class _SendCodeButtonState extends State<SendCodeButton> {
                         );
                       },
                     );
-                  }else{
+                  }else if (response is ResponseException) {
                     return showDialog<void>(
                       context: context,
                       barrierDismissible: false,
@@ -248,7 +248,6 @@ class _CodeVerifyButtonState extends State<CodeVerifyButton> {
                 } else {
                   var verifyCodeRequest = await verifyCode(
                       http.Client(),
-                      emailController.text,
                       int.parse(verificationCodeController.text));
                   if (verifyCodeRequest) {
                     Navigator.push(

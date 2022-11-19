@@ -55,6 +55,7 @@ class _QuestScreenState extends State<QuestScreen> {
                 child: NavigationButtons()),
           Positioned(
               left: 34,
+              right: 34,
               top: 270,
               bottom: 50,
               child: Padding(

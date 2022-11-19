@@ -21,6 +21,9 @@ Future<dynamic> loginUser(
         'password': password,
       }));
 
+  // if (response.statusCode != 302) {
+  //   return response.body;
+  // }
   if (response.statusCode != 302) {
     return response.body;
   }
@@ -32,7 +35,6 @@ Future<dynamic> loginUser(
     'Accept': 'application/json',
     'Cookie': '$getCharacterToken',
   });
-
 
   prefs.setString('token', getCharacterToken.toString());
 
@@ -49,7 +51,7 @@ Future<dynamic> signUpUser(http.Client client, String username, String email,
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'email': email, 
+        'email': email,
         'password': password,
         'verifyPassword': passwordAgain,
         'characterName': username
@@ -70,11 +72,14 @@ Future<String> loadCharacter(
   http.Client client,
   String token,
 ) async {
-  final response = await client.get(Uri.parse('https://timeapibyredfoxghs.herokuapp.com/character/get-character'), headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Cookie': token,
-  });
+  final response = await client.get(
+      Uri.parse(
+          'https://timeapibyredfoxghs.herokuapp.com/character/get-character'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Cookie': token,
+      });
 
   return response.body;
 }

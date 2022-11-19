@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/user_controller.dart';
 import 'package:this_is_me/model/character.dart';
+import 'package:this_is_me/model/quest.dart';
 import 'package:this_is_me/view/account/forgetPassword_screen.dart';
 import 'package:this_is_me/view/character_screen.dart';
 import 'package:this_is_me/view/quest_screen.dart';
@@ -97,30 +101,27 @@ class _LoginButtonState extends State<LoginButton> {
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<String> _token;
-  Future<void> _incrementCounter() async {
-    final SharedPreferences prefs = await _prefs;
-    final String? token = prefs.getString('token');
-
-    setState(() {
-      _token = prefs.setString('token', token!).then((bool success) {
-        return _token;
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 40),
-      child: SizedBox(
-          height: 50,
-          width: 150,
-          child: ElevatedButton(
+        padding: const EdgeInsets.only(top: 40),
+        child: SizedBox(
+            height: 50,
+            width: 150,
+            child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: midPurple,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               onPressed: () async {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  elevation: 4,
+                  content: const Text("Logging in..."),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ));
+
                 if (emailController.text.isEmpty ||
                     passwordController.text.isEmpty) {
                   return showDialog<void>(
@@ -169,10 +170,10 @@ class _LoginButtonState extends State<LoginButton> {
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => QuestScreen(character: character,)), (route) => false);
               },
               child: Text(
-                'LOGIN',
+                'SUBMIT',
                 style: loginButton,
-              ))),
-    );
+              ),
+            )));
   }
 
   void goToCharacterScreen(Character character) {

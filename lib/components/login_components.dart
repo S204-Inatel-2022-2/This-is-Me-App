@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -101,16 +103,23 @@ class _LoginButtonState extends State<LoginButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 40),
-      child: SizedBox(
-          height: 50,
-          width: 150,
-          child: ElevatedButton(
+        padding: const EdgeInsets.only(top: 40),
+        child: SizedBox(
+            height: 50,
+            width: 150,
+            child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   backgroundColor: midPurple,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10))),
               onPressed: () async {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  elevation: 4,
+                  content: const Text("Logging in..."),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ));
+
                 if (emailController.text.isEmpty ||
                     passwordController.text.isEmpty) {
                   return showDialog<void>(
@@ -159,14 +168,13 @@ class _LoginButtonState extends State<LoginButton> {
                 goToCharacterScreen(character);
               },
               child: Text(
-                'LOGIN',
+                'SUBMIT',
                 style: loginButton,
-              ))),
-    );
+              ),
+            )));
   }
 
   void goToCharacterScreen(Character character) {
-    print(character);
     runApp(MaterialApp(
       home: QuestScreen(character: character),
     ));

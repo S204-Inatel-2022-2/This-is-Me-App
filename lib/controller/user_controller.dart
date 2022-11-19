@@ -34,8 +34,6 @@ Future<dynamic> loginUser(
 
   prefs.setString('token', getCharacterToken.toString());
 
-  print('body');
-  print(character.body);
   return Character.fromJson(jsonDecode(character.body));
 }
 

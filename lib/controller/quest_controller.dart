@@ -23,6 +23,5 @@ List<Quest> parseQuests(String responseBody) {
   final parsed = jsonDecode(utf8.decode((responseBody.codeUnits)))
       .cast<Map<String, dynamic>>();
 
-  print(responseBody);
   return parsed.map<Quest>((json) => Quest.fromJson(json)).toList();
 }

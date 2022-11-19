@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:this_is_me/view/account/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:this_is_me/controller/user_controller.dart';
@@ -21,6 +22,7 @@ Future<void> main() async {
       home: LoginScreen(),
     ));
   } else {
+    prefs.remove('token');
     var response = await loadCharacter(http.Client(), token.toString());
     Character character = Character.fromJson(jsonDecode(response));
     runApp(MaterialApp(

@@ -8,13 +8,36 @@ import 'package:this_is_me/controller/quest_controller.dart';
 import 'package:this_is_me/model/quest.dart';
 import 'package:http/http.dart' as http;
 
-class QuestList extends StatelessWidget {
-  const QuestList({super.key});
+class TodayQuestList extends StatelessWidget {
+  const TodayQuestList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Quest>>(
       future: getTodayQuests(http.Client()),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error!.toString()),
+          );
+        } else if (snapshot.hasData) {
+          return QuestLoader(quests: snapshot.data!);
+        }
+        return Center(
+            child: LoadingAnimationWidget.halfTriangleDot(
+                color: mainLoadingAnimationColor, size: 40));
+      }),
+    );
+  }
+}
+
+class WeekQuestList extends StatelessWidget {
+  const WeekQuestList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Quest>>(
+      future: getWeekQuests(http.Client()),
       builder: ((context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -117,12 +140,11 @@ class _QuestLoaderState extends State<QuestLoader> {
 }
 
 class LeftColumn extends StatelessWidget {
-  const LeftColumn({
-    super.key,
-    required this.level,
-    required this.name,
-    required this.clothes
-  });
+  const LeftColumn(
+      {super.key,
+      required this.level,
+      required this.name,
+      required this.clothes});
   final String level;
   final String name;
   final int clothes;
@@ -141,20 +163,17 @@ class LeftColumn extends StatelessWidget {
                 name,
                 style: characterName,
               ),
-              SizedBox(
-                  width: 200,
-                  child: Image.asset(getClothesDir(clothes)))
+              SizedBox(width: 200, child: Image.asset(getClothesDir(clothes)))
             ]))
       ],
     );
   }
 
-  String getClothesDir(int number){
-    if(number == 1)
-      return 'assets/images/personagemFem1.png';
+  String getClothesDir(int number) {
+    if (number == 1) return 'assets/images/personagemFem1.png';
 
     return 'assets/images/personagemMasc1.png';
-  } 
+  }
 }
 
 class RightColumn extends StatelessWidget {

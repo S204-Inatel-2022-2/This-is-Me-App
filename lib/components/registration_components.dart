@@ -10,7 +10,7 @@ import 'package:this_is_me/controller/user_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/model/exception/response_exception.dart';
 import 'package:this_is_me/view/character_screen.dart';
-import 'package:this_is_me/view/quest_screen.dart';
+import 'package:this_is_me/view/quest/quest_screen.dart';
 
 // TextEditingController
 TextEditingController usernameController = TextEditingController();

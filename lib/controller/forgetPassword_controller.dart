@@ -28,16 +28,15 @@ Future<dynamic> sendCode(
 
 String getTokenNewPassword = '';
 
-Future<dynamic> verifyCode(http.Client client, String email ,int code) async {
-  
-
+Future<dynamic> verifyCode(http.Client client, String email, int code) async {
   if (getEmail == '' && email == '') {
     return ResponseException(
-        message: 'Por favor, campo email deve ser preenchido.\n\nobs: caso já tenha um código de verificação valido, não é necessario clicar no botão "enviar código" novamente.'); 
+        message:
+            'Por favor, campo email deve ser preenchido.\n\nobs: caso já tenha um código de verificação valido, não é necessario clicar no botão "enviar código" novamente.');
   }
 
   email = email == '' ? getEmail : email;
-  
+
   final response = await client.post(
       Uri.parse('https://timeapibyredfoxghs.herokuapp.com'
           '/user/reset/verify-code-reset'),
@@ -60,8 +59,8 @@ Future<dynamic> newPassword(
   String password,
   String verifyPassword,
 ) async {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final SharedPreferences prefs = await _prefs;
+  final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
+  final SharedPreferences prefs = await preferences;
 
   final response = await client.post(
       Uri.parse('https://timeapibyredfoxghs.herokuapp.com'

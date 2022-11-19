@@ -10,7 +10,7 @@ import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/model/quest.dart';
 import 'package:this_is_me/view/account/forgetPassword_screen.dart';
 import 'package:this_is_me/view/character_screen.dart';
-import 'package:this_is_me/view/quest_screen.dart';
+import 'package:this_is_me/view/quest/quest_screen.dart';
 import 'package:this_is_me/view/account/registration_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/view/account/registration_screen.dart';
@@ -98,8 +98,7 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
-
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
   late Future<String> _token;
 
   @override
@@ -116,6 +115,7 @@ class _LoginButtonState extends State<LoginButton> {
                       borderRadius: BorderRadius.circular(10))),
               onPressed: () async {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  duration: const Duration(seconds: 2),
                   elevation: 4,
                   content: const Text("Logging in..."),
                   shape: RoundedRectangleBorder(
@@ -167,7 +167,7 @@ class _LoginButtonState extends State<LoginButton> {
                     },
                   );
                 }
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => QuestScreen(character: character,)), (route) => false);
+                goToCharacterScreen(character);
               },
               child: Text(
                 'SUBMIT',
@@ -177,9 +177,10 @@ class _LoginButtonState extends State<LoginButton> {
   }
 
   void goToCharacterScreen(Character character) {
-    runApp(MaterialApp(
-      home: QuestScreen(character: character),
-    ));
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => QuestScreen()),
+        (route) => false);
   }
 }
 
@@ -215,8 +216,10 @@ class NewAccountButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: TextButton(
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RegistrationScreen())),
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const RegistrationScreen())),
           child: Text(
             message,
             style: newAccountButton,

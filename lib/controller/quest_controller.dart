@@ -6,6 +6,14 @@ import 'package:this_is_me/model/character.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/model/quest.dart';
 
+// A function that converts a response body into a List<Photo>.
+List<Quest> parseQuests(String responseBody) {
+  final parsed = jsonDecode(utf8.decode((responseBody.codeUnits)))
+      .cast<Map<String, dynamic>>();
+
+  return parsed.map<Quest>((json) => Quest.fromJson(json)).toList();
+}
+
 Future<List<Quest>> getTodayQuests(http.Client client) async {
   final prefs = await SharedPreferences.getInstance();
   final String? token = prefs.getString('token');
@@ -18,10 +26,14 @@ Future<List<Quest>> getTodayQuests(http.Client client) async {
   return compute(parseQuests, response.body);
 }
 
-// A function that converts a response body into a List<Photo>.
-List<Quest> parseQuests(String responseBody) {
-  final parsed = jsonDecode(utf8.decode((responseBody.codeUnits)))
-      .cast<Map<String, dynamic>>();
+Future<List<Quest>> getWeekQuests(http.Client client) async {
+  final prefs = await SharedPreferences.getInstance();
+  final String? token = prefs.getString('token');
+  final response = await client.get(
+      Uri.parse(
+          'https://timeapibyredfoxghs.herokuapp.com/subQuest/week-cards'),
+      headers: {'accept': 'application/json', 'Cookie': token.toString()});
 
-  return parsed.map<Quest>((json) => Quest.fromJson(json)).toList();
+  // Use the compute function to run parsePhotos in a separate isolate.
+  return compute(parseQuests, response.body);
 }

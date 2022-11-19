@@ -1,4 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
+import 'package:this_is_me/components/quest_components.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/character_controller.dart';
@@ -10,8 +13,8 @@ import 'package:this_is_me/view/quest/quest_screen.dart';
 
 int bottomSelectedIndex = 0;
 
-class CreateCharacterScreen extends StatelessWidget {
-  const CreateCharacterScreen({Key? key}) : super(key: key);
+class QuestCardViewer extends StatelessWidget {
+  const QuestCardViewer({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -63,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       onPageChanged: (index) {
         pageChanged(index);
       },
-      children: const <Widget>[Option1(), Option2()],
+      children: const <Widget>[TodayQuests(), WeekQuests()],
     );
   }
 
@@ -88,59 +91,113 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: background,
-      body: Column(
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(top: 80, bottom: 15),
-              child: Text(
-                'Escolha seu personagem',
-                style: createCharacterName,
-              )),
-          Expanded(child: buildPageView()),
-          const AdvanceButton()
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.white,
-        backgroundColor: background,
-        currentIndex: bottomSelectedIndex,
-        onTap: (index) {
-          bottomTapped(index);
-        },
-        items: buildBottomNavBarItems(),
-      ),
-    );
+    return Expanded(child: buildPageView());
   }
 }
 
-class Option1 extends StatelessWidget {
-  const Option1({super.key});
+class TodayQuests extends StatefulWidget {
+  const TodayQuests({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Image.asset(
-        'assets/images/personagemFem1.png',
-        height: 550,
-      ),
-    );
-  }
+  State<TodayQuests> createState() => _TodayQuestsState();
 }
 
-class Option2 extends StatelessWidget {
-  const Option2({super.key});
-
+class _TodayQuestsState extends State<TodayQuests>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Image.asset(
-        'assets/images/personagemMasc1.png',
-        height: 550,
-      ),
+    return Positioned(
+      left: 34,
+      right: 34,
+      top: 270,
+      bottom: 50,
+      child: Padding(
+          padding:
+              const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
+          child: SizedBox(
+            height: 100,
+            width: 340,
+            child: BlurryContainer(
+              color: Colors.grey.withOpacity(0.5),
+              child: Column(children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        'Quests do Dia',
+                        style: questContainerTitle,
+                      )),
+                  const Padding(
+                      padding: EdgeInsets.only(left: 120),
+                      child: FloatingActionButton.small(
+                        onPressed: null,
+                        backgroundColor: midPurple,
+                        child: Icon(Icons.add),
+                      ))
+                ]),
+                Expanded(child: TodayQuestList())
+              ]),
+            ),
+          )),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class WeekQuests extends StatefulWidget {
+  const WeekQuests({super.key});
+
+  @override
+  State<WeekQuests> createState() => _WeekQuestsState();
+}
+
+class _WeekQuestsState extends State<WeekQuests>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 34,
+      right: 34,
+      top: 270,
+      bottom: 50,
+      child: Padding(
+          padding:
+              const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
+          child: SizedBox(
+            height: 100,
+            width: 340,
+            child: BlurryContainer(
+              color: Colors.grey.withOpacity(0.5),
+              child: Column(children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: SizedBox(
+                          width: 150,
+                          child: AutoSizeText(
+                            'Quests da Semana',
+                            style: questContainerTitle,
+                          ))),
+                  const Padding(
+                      padding: EdgeInsets.only(left: 120),
+                      child: FloatingActionButton.small(
+                        onPressed: null,
+                        backgroundColor: midPurple,
+                        child: Icon(Icons.add),
+                      ))
+                ]),
+                const Expanded(child: WeekQuestList())
+              ]),
+            ),
+          )),
+    );
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class AdvanceButton extends StatefulWidget {

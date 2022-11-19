@@ -6,7 +6,7 @@ import 'package:this_is_me/controller/user_controller.dart';
 import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/view/account/login_screen.dart';
 import 'package:this_is_me/view/account/newPassword_screen.dart';
-import 'package:this_is_me/view/quest_screen.dart';
+import 'package:this_is_me/view/quest/quest_screen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -22,11 +22,10 @@ Future<void> main() async {
       home: LoginScreen(),
     ));
   } else {
-    prefs.remove('token');
     var response = await loadCharacter(http.Client(), token.toString());
     Character character = Character.fromJson(jsonDecode(response));
-    runApp(MaterialApp(
-      home: QuestScreen(character: character),
+    runApp(const MaterialApp(
+      home: QuestScreen(),
     ));
   }
 // Add these 2 lines

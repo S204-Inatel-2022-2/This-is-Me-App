@@ -17,7 +17,7 @@ var characterLevel = GoogleFonts.jura(
 var characterName = GoogleFonts.jura(
     fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold);
 var questContainerTitle = GoogleFonts.jura(
-    fontSize: 16,
+    fontSize: 13,
     color: lightPurple,
     fontWeight: FontWeight.bold,
     shadows: <Shadow>[
@@ -55,5 +55,5 @@ var textCodeForget = GoogleFonts.jura(
     fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold);
 
 // CreateCharacter Screen
-var createCharacterName =  GoogleFonts.jura(
-    fontSize: 20, color: lightPurple, fontWeight: FontWeight.bold);    
+var createCharacterName = GoogleFonts.jura(
+    fontSize: 20, color: lightPurple, fontWeight: FontWeight.bold);

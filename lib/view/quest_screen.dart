@@ -42,6 +42,7 @@ class _QuestScreenState extends State<QuestScreen> {
                         LeftColumn(
                           level: widget.character.level.toString(),
                           name: widget.character.characterName,
+                          clothes: widget.character.clothes,
                         ),
                         const RightColumn()
                       ],

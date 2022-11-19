@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
+import 'package:this_is_me/controller/character_controller.dart';
+import 'package:http/http.dart' as http;
+import 'package:this_is_me/controller/user_controller.dart';
+import 'package:this_is_me/model/character.dart';
+import 'package:this_is_me/model/exception/response_exception.dart';
+import 'package:this_is_me/view/quest_screen.dart';
 
 class CreateCharacterScreen extends StatelessWidget {
   const CreateCharacterScreen({Key? key}) : super(key: key);
@@ -25,9 +31,8 @@ class MyHomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
-
+int bottomSelectedIndex = 0;
 class _MyHomePageState extends State<MyHomePage> {
-  int bottomSelectedIndex = 0;
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
@@ -89,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Padding(
               padding: const EdgeInsets.only(top: 80, bottom: 15),
               child: Text(
-                'Nome do Usuario',
+                'Escolha seu personagem',
                 style: createCharacterName,
               )),
           Expanded(child: buildPageView()),
@@ -153,7 +158,17 @@ class _AdvanceButtonState extends State<AdvanceButton> {
           height: 50,
           width: 130,
           child: ElevatedButton(
-              onPressed: () async {},
+              onPressed: () async {
+                var response = await setClothes(http.Client(), bottomSelectedIndex);
+                if (response == 200) {
+                  var characterResponse = await getCharacter(http.Client());
+                  if (characterResponse is Character) {
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => QuestScreen(character: characterResponse,)), (route) => false);
+                  }
+                }else if(response is ResponseException){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response.message)));
+                }
+              },
               style: ElevatedButton.styleFrom(
                   backgroundColor: midPurple,
                   shape: RoundedRectangleBorder(

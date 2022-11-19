@@ -117,9 +117,11 @@ class LeftColumn extends StatelessWidget {
     super.key,
     required this.level,
     required this.name,
+    required this.clothes
   });
   final String level;
   final String name;
+  final int clothes;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -137,11 +139,18 @@ class LeftColumn extends StatelessWidget {
               ),
               SizedBox(
                   width: 200,
-                  child: Image.asset('assets/images/personagemFem1.png'))
+                  child: Image.asset(getClothesDir(clothes)))
             ]))
       ],
     );
   }
+
+  String getClothesDir(int number){
+    if(number == 1)
+      return 'assets/images/personagemFem1.png';
+
+    return 'assets/images/personagemMasc1.png';
+  } 
 }
 
 class RightColumn extends StatelessWidget {

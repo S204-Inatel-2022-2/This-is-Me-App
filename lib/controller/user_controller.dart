@@ -4,7 +4,7 @@ import 'package:this_is_me/model/character.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/model/exception/response_exception.dart';
 
-Future<Character> loginUser(
+Future<dynamic> loginUser(
   http.Client client,
   String email,
   String password,
@@ -32,7 +32,7 @@ Future<Character> loginUser(
     'Cookie': '$getCharacterToken',
   });
 
-  // prefs.setString('token', getCharacterToken.toString());
+  prefs.setString('token', getCharacterToken.toString());
 
   print('body');
   print(character.body);

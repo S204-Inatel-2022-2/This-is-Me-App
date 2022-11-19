@@ -8,6 +8,7 @@ import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/model/exception/response_exception.dart';
 import 'package:this_is_me/view/quest_screen.dart';
 
+int bottomSelectedIndex = 0;
 class CreateCharacterScreen extends StatelessWidget {
   const CreateCharacterScreen({Key? key}) : super(key: key);
 
@@ -31,7 +32,6 @@ class MyHomePage extends StatefulWidget {
   // ignore: library_private_types_in_public_api
   _MyHomePageState createState() => _MyHomePageState();
 }
-int bottomSelectedIndex = 0;
 class _MyHomePageState extends State<MyHomePage> {
 
   List<BottomNavigationBarItem> buildBottomNavBarItems() {

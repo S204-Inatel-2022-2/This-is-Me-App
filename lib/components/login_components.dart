@@ -9,6 +9,7 @@ import 'package:this_is_me/controller/user_controller.dart';
 import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/model/quest.dart';
 import 'package:this_is_me/view/account/forgetPassword_screen.dart';
+import 'package:this_is_me/view/character_screen.dart';
 import 'package:this_is_me/view/quest_screen.dart';
 import 'package:this_is_me/view/account/registration_screen.dart';
 import 'package:http/http.dart' as http;
@@ -97,6 +98,7 @@ class LoginButton extends StatefulWidget {
 }
 
 class _LoginButtonState extends State<LoginButton> {
+
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<String> _token;
 
@@ -165,7 +167,7 @@ class _LoginButtonState extends State<LoginButton> {
                     },
                   );
                 }
-                goToCharacterScreen(character);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => QuestScreen(character: character,)), (route) => false);
               },
               child: Text(
                 'SUBMIT',
@@ -213,10 +215,8 @@ class NewAccountButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: TextButton(
-          onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const RegistrationScreen())),
+          onPressed: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => RegistrationScreen())),
           child: Text(
             message,
             style: newAccountButton,

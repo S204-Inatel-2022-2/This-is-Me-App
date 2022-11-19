@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:this_is_me/controller/user_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/model/exception/response_exception.dart';
-import 'package:this_is_me/view/account/build_character_screen.dart';
+import 'package:this_is_me/view/character_screen.dart';
 import 'package:this_is_me/view/quest_screen.dart';
 
 // TextEditingController
@@ -230,7 +230,7 @@ class _RegistrationButtonState extends State<RegistrationButton> {
                       context,
                       MaterialPageRoute(
                           builder: ((context) =>
-                              const BuildCharacterScreen())));
+                              const CreateCharacterScreen())));
                 } else if (response is ResponseException) {
                   return showDialog<void>(
                     context: context,

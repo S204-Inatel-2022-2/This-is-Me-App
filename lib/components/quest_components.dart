@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:this_is_me/constants/app_colors.dart';
+import 'package:this_is_me/constants/app_colors.dart';
+import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/quest_controller.dart';
 import 'package:this_is_me/model/quest.dart';
 import 'package:http/http.dart' as http;
@@ -111,5 +113,133 @@ class _QuestLoaderState extends State<QuestLoader> {
             ));
       },
     );
+  }
+}
+
+class LeftColumn extends StatelessWidget {
+  const LeftColumn({
+    super.key,
+    required this.level,
+    required this.name,
+    required this.clothes
+  });
+  final String level;
+  final String name;
+  final int clothes;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Column(children: [
+              Text(
+                'Nv.$level',
+                style: characterLevel,
+              ),
+              Text(
+                name,
+                style: characterName,
+              ),
+              SizedBox(
+                  width: 200,
+                  child: Image.asset(getClothesDir(clothes)))
+            ]))
+      ],
+    );
+  }
+
+  String getClothesDir(int number){
+    if(number == 1)
+      return 'assets/images/personagemFem1.png';
+
+    return 'assets/images/personagemMasc1.png';
+  } 
+}
+
+class RightColumn extends StatelessWidget {
+  const RightColumn({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 320),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const Text(
+              'Ti-Me',
+              style: TextStyle(color: Colors.white),
+            ),
+            SizedBox(
+                width: 100, child: Image.asset('assets/images/robozinho.png'))
+          ],
+        ));
+    ;
+  }
+}
+
+class NavigationButtons extends StatelessWidget {
+  const NavigationButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Column(children: [
+            FloatingActionButton(
+              heroTag: 'skill_button',
+              onPressed: null,
+              backgroundColor: midPurple,
+              child: Image.asset('assets/images/icons/skill_icon.png'),
+            ),
+            Text('Skill', style: navigationButtonsLabels)
+          ])),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Column(children: [
+            FloatingActionButton(
+              heroTag: 'agenda_button',
+              onPressed: null,
+              backgroundColor: midPurple,
+              child: Image.asset('assets/images/icons/agenda_icon.png'),
+            ),
+            Text('Agenda', style: navigationButtonsLabels)
+          ])),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Column(children: [
+            FloatingActionButton(
+              heroTag: 'amigos_button',
+              onPressed: null,
+              backgroundColor: midPurple,
+              child: Image.asset('assets/images/icons/amigos_icon.png'),
+            ),
+            Text('Amigos', style: navigationButtonsLabels)
+          ])),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Column(children: [
+            FloatingActionButton(
+              heroTag: 'ranks_button',
+              onPressed: null,
+              backgroundColor: midPurple,
+              child: Image.asset('assets/images/icons/ranks_icon.png'),
+            ),
+            Text('Ranks', style: navigationButtonsLabels)
+          ])),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Column(children: [
+            FloatingActionButton(
+              heroTag: 'perfil_button',
+              onPressed: null,
+              backgroundColor: midPurple,
+              child: Image.asset('assets/images/icons/perfil_icon.png'),
+            ),
+            Text('Perfil', style: navigationButtonsLabels)
+          ])),
+    ]);
   }
 }

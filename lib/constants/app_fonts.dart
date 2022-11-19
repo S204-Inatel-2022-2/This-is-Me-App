@@ -21,7 +21,7 @@ var questContainerTitle = GoogleFonts.jura(
     color: lightPurple,
     fontWeight: FontWeight.bold,
     shadows: <Shadow>[
-      Shadow(
+      const Shadow(
         offset: Offset(1, 1),
         blurRadius: 3.0,
         color: Color.fromARGB(255, 0, 0, 0),
@@ -31,7 +31,7 @@ var navigationButtonsLabels = GoogleFonts.jura(
     fontSize: 13, color: Colors.white, fontWeight: FontWeight.bold);
 var questTile = GoogleFonts.jura(
     fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
-    
+
 // Registration Screen
 var registrationTitle = GoogleFonts.jura(
     fontSize: 25, color: lightPurple, fontWeight: FontWeight.bold);
@@ -53,3 +53,7 @@ var forgotPasswordMessage = GoogleFonts.jura(
     fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold);
 var textCodeForget = GoogleFonts.jura(
     fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold);
+
+// CreateCharacter Screen
+var createCharacterName =  GoogleFonts.jura(
+    fontSize: 20, color: lightPurple, fontWeight: FontWeight.bold);    

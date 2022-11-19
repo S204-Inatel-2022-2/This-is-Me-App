@@ -24,6 +24,10 @@ Future<dynamic> loginUser(
   // if (response.statusCode != 302) {
   //   return response.body;
   // }
+  if (response.statusCode != 302) {
+    return response.body;
+  }
+
   final getCharacterPath = Uri.parse(response.headers['location'].toString());
   final getCharacterToken = response.headers['set-cookie'];
   final character = await client.get(getCharacterPath, headers: {
@@ -39,6 +43,8 @@ Future<dynamic> loginUser(
 
 Future<dynamic> signUpUser(http.Client client, String username, String email,
     String password, String passwordAgain) async {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final SharedPreferences prefs = await _prefs;
   final response = await client.post(
       Uri.parse('https://timeapibyredfoxghs.herokuapp.com/user/register'),
       headers: <String, String>{
@@ -55,6 +61,9 @@ Future<dynamic> signUpUser(http.Client client, String username, String email,
     return ResponseException.fromJson(
         jsonDecode((utf8.decode(response.bodyBytes))));
   }
+
+  final getCharacterToken = response.headers['set-cookie'];
+  prefs.setString('token', getCharacterToken.toString());
 
   return response.statusCode;
 }

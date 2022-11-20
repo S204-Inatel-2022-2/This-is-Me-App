@@ -13,6 +13,32 @@ import 'package:this_is_me/view/quest/quest_screen.dart';
 
 int bottomSelectedIndex = 0;
 
+class QuestCardTopControll extends StatelessWidget {
+  const QuestCardTopControll({super.key, required this.title});
+
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: SizedBox(
+              width: 150,
+              child: AutoSizeText(
+                title,
+                style: questContainerTitle,
+              ))),
+      const Padding(
+          padding: EdgeInsets.only(left: 120),
+          child: FloatingActionButton.small(
+            onPressed: null,
+            backgroundColor: midPurple,
+            child: Icon(Icons.add),
+          ))
+    ]);
+  }
+}
+
 class QuestCardViewer extends StatelessWidget {
   const QuestCardViewer({Key? key}) : super(key: key);
 
@@ -113,41 +139,26 @@ class _WeeklyQuestsState extends State<WeeklyQuests>
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      left: 34,
-      right: 34,
-      top: 270,
-      bottom: 50,
-      child: Padding(
+        left: 34,
+        right: 34,
+        top: 270,
+        bottom: 50,
+        child: Padding(
           padding:
               const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
           child: SizedBox(
-            height: 100,
-            width: 340,
-            child: BlurryContainer(
-              color: Colors.grey.withOpacity(0.5),
-              child: Column(children: [
-                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: SizedBox(
-                          width: 150,
-                          child: AutoSizeText(
-                            'Quests Semanais',
-                            style: questContainerTitle,
-                          ))),
-                  const Padding(
-                      padding: EdgeInsets.only(left: 120),
-                      child: FloatingActionButton.small(
-                        onPressed: null,
-                        backgroundColor: midPurple,
-                        child: Icon(Icons.add),
-                      ))
+              height: 100,
+              width: 340,
+              child: BlurryContainer(
+                color: Colors.grey.withOpacity(0.5),
+                child: Column(children: const [
+                  QuestCardTopControll(
+                    title: 'Quests Semanais',
+                  ),
+                  Expanded(child: WeeklyQuestList())
                 ]),
-                const Expanded(child: WeeklyQuestList())
-              ]),
-            ),
-          )),
-    );
+              )),
+        ));
   }
 
   @override
@@ -179,24 +190,8 @@ class _TodayQuestsState extends State<TodayQuests>
             width: 340,
             child: BlurryContainer(
               color: Colors.grey.withOpacity(0.5),
-              child: Column(children: [
-                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: SizedBox(
-                          width: 150,
-                          child: AutoSizeText(
-                            'Quests do Dia',
-                            style: questContainerTitle,
-                          ))),
-                  const Padding(
-                      padding: EdgeInsets.only(left: 120),
-                      child: FloatingActionButton.small(
-                        onPressed: null,
-                        backgroundColor: midPurple,
-                        child: Icon(Icons.add),
-                      ))
-                ]),
+              child: Column(children: const [
+                QuestCardTopControll(title: 'Quests do dia'),
                 Expanded(child: TodayQuestList())
               ]),
             ),
@@ -233,24 +228,8 @@ class _NextWeekQuestsState extends State<NextWeekQuests>
             width: 340,
             child: BlurryContainer(
               color: Colors.grey.withOpacity(0.5),
-              child: Column(children: [
-                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: SizedBox(
-                          width: 150,
-                          child: AutoSizeText(
-                            'Quests da Próx. Semana',
-                            style: questContainerTitle,
-                          ))),
-                  const Padding(
-                      padding: EdgeInsets.only(left: 120),
-                      child: FloatingActionButton.small(
-                        onPressed: null,
-                        backgroundColor: midPurple,
-                        child: Icon(Icons.add),
-                      ))
-                ]),
+              child: Column(children: const [
+                QuestCardTopControll(title: 'Quests da Próx. Semana'),
                 Expanded(child: TodayQuestList())
               ]),
             ),
@@ -287,24 +266,8 @@ class _LateQuestsState extends State<LateQuests>
             width: 340,
             child: BlurryContainer(
               color: Colors.grey.withOpacity(0.5),
-              child: Column(children: [
-                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: SizedBox(
-                          width: 150,
-                          child: AutoSizeText(
-                            'Quests Atrasadas',
-                            style: questContainerTitle,
-                          ))),
-                  const Padding(
-                      padding: EdgeInsets.only(left: 120),
-                      child: FloatingActionButton.small(
-                        onPressed: null,
-                        backgroundColor: midPurple,
-                        child: Icon(Icons.add),
-                      ))
-                ]),
+              child: Column(children: const [
+                QuestCardTopControll(title: 'Quests Atrasadas'),
                 Expanded(child: TodayQuestList())
               ]),
             ),

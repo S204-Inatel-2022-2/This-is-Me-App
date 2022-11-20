@@ -31,13 +31,8 @@ class _QuestScreenState extends State<QuestScreen> {
         backgroundColor: background,
         body: Stack(children: [
           Padding(
-              padding: const EdgeInsets.only(top: 25),
+              padding: const EdgeInsets.only(top: 50),
               child: Column(children: [
-                Center(
-                    child: Text(
-                  'Quadros',
-                  style: screenTitle,
-                )),
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(

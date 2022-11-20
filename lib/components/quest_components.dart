@@ -8,13 +8,13 @@ import 'package:this_is_me/controller/quest_controller.dart';
 import 'package:this_is_me/model/quest.dart';
 import 'package:http/http.dart' as http;
 
-class TodayQuestList extends StatelessWidget {
-  const TodayQuestList({super.key});
+class WeeklyQuestList extends StatelessWidget {
+  const WeeklyQuestList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Quest>>(
-      future: getTodayQuests(http.Client()),
+      future: weeklyCards(http.Client()),
       builder: ((context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -31,13 +31,59 @@ class TodayQuestList extends StatelessWidget {
   }
 }
 
-class WeekQuestList extends StatelessWidget {
-  const WeekQuestList({super.key});
+class TodayQuestList extends StatelessWidget {
+  const TodayQuestList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Quest>>(
-      future: getWeekQuests(http.Client()),
+      future: todayCards(http.Client()),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error!.toString()),
+          );
+        } else if (snapshot.hasData) {
+          return QuestLoader(quests: snapshot.data!);
+        }
+        return Center(
+            child: LoadingAnimationWidget.halfTriangleDot(
+                color: mainLoadingAnimationColor, size: 40));
+      }),
+    );
+  }
+}
+
+class NextWeekQuestList extends StatelessWidget {
+  const NextWeekQuestList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Quest>>(
+      future: nextWeekCards(http.Client()),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error!.toString()),
+          );
+        } else if (snapshot.hasData) {
+          return QuestLoader(quests: snapshot.data!);
+        }
+        return Center(
+            child: LoadingAnimationWidget.halfTriangleDot(
+                color: mainLoadingAnimationColor, size: 40));
+      }),
+    );
+  }
+}
+
+class LateQuestList extends StatelessWidget {
+  const LateQuestList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Quest>>(
+      future: lateCards(http.Client()),
       builder: ((context, snapshot) {
         if (snapshot.hasError) {
           return Center(

@@ -24,20 +24,20 @@ class QuestCardViewer extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const QuestPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class QuestPage extends StatefulWidget {
+  const QuestPage({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _MyHomePageState createState() => _MyHomePageState();
+  _QuestPageState createState() => _QuestPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _QuestPageState extends State<QuestPage> {
   List<BottomNavigationBarItem> buildBottomNavBarItems() {
     return [
       BottomNavigationBarItem(
@@ -66,7 +66,12 @@ class _MyHomePageState extends State<MyHomePage> {
       onPageChanged: (index) {
         pageChanged(index);
       },
-      children: const <Widget>[TodayQuests(), WeekQuests()],
+      children: const <Widget>[
+        WeeklyQuests(),
+        TodayQuests(),
+        NextWeekQuests(),
+        LateQuests()
+      ],
     );
   }
 
@@ -95,6 +100,61 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+// weekly
+class WeeklyQuests extends StatefulWidget {
+  const WeeklyQuests({super.key});
+
+  @override
+  State<WeeklyQuests> createState() => _WeeklyQuestsState();
+}
+
+class _WeeklyQuestsState extends State<WeeklyQuests>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 34,
+      right: 34,
+      top: 270,
+      bottom: 50,
+      child: Padding(
+          padding:
+              const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
+          child: SizedBox(
+            height: 100,
+            width: 340,
+            child: BlurryContainer(
+              color: Colors.grey.withOpacity(0.5),
+              child: Column(children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: SizedBox(
+                          width: 150,
+                          child: AutoSizeText(
+                            'Quests Semanais',
+                            style: questContainerTitle,
+                          ))),
+                  const Padding(
+                      padding: EdgeInsets.only(left: 120),
+                      child: FloatingActionButton.small(
+                        onPressed: null,
+                        backgroundColor: midPurple,
+                        child: Icon(Icons.add),
+                      ))
+                ]),
+                const Expanded(child: WeeklyQuestList())
+              ]),
+            ),
+          )),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+//today
 class TodayQuests extends StatefulWidget {
   const TodayQuests({super.key});
 
@@ -123,10 +183,12 @@ class _TodayQuestsState extends State<TodayQuests>
                 Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                   Padding(
                       padding: const EdgeInsets.only(left: 15),
-                      child: Text(
-                        'Quests do Dia',
-                        style: questContainerTitle,
-                      )),
+                      child: SizedBox(
+                          width: 150,
+                          child: AutoSizeText(
+                            'Quests do Dia',
+                            style: questContainerTitle,
+                          ))),
                   const Padding(
                       padding: EdgeInsets.only(left: 120),
                       child: FloatingActionButton.small(
@@ -146,14 +208,15 @@ class _TodayQuestsState extends State<TodayQuests>
   bool get wantKeepAlive => true;
 }
 
-class WeekQuests extends StatefulWidget {
-  const WeekQuests({super.key});
+//Next week
+class NextWeekQuests extends StatefulWidget {
+  const NextWeekQuests({super.key});
 
   @override
-  State<WeekQuests> createState() => _WeekQuestsState();
+  State<NextWeekQuests> createState() => _NextWeekQuestsState();
 }
 
-class _WeekQuestsState extends State<WeekQuests>
+class _NextWeekQuestsState extends State<NextWeekQuests>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
@@ -177,7 +240,7 @@ class _WeekQuestsState extends State<WeekQuests>
                       child: SizedBox(
                           width: 150,
                           child: AutoSizeText(
-                            'Quests da Semana',
+                            'Quests da Próx. Semana',
                             style: questContainerTitle,
                           ))),
                   const Padding(
@@ -188,7 +251,7 @@ class _WeekQuestsState extends State<WeekQuests>
                         child: Icon(Icons.add),
                       ))
                 ]),
-                const Expanded(child: WeekQuestList())
+                Expanded(child: TodayQuestList())
               ]),
             ),
           )),
@@ -196,50 +259,59 @@ class _WeekQuestsState extends State<WeekQuests>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
 
-class AdvanceButton extends StatefulWidget {
-  const AdvanceButton({super.key});
+//Next week
+class LateQuests extends StatefulWidget {
+  const LateQuests({super.key});
 
   @override
-  State<AdvanceButton> createState() => _AdvanceButtonState();
+  State<LateQuests> createState() => _LateQuestsState();
 }
 
-class _AdvanceButtonState extends State<AdvanceButton> {
+class _LateQuestsState extends State<LateQuests>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: SizedBox(
-          height: 50,
-          width: 130,
-          child: ElevatedButton(
-              onPressed: () async {
-                var response =
-                    await setClothes(http.Client(), bottomSelectedIndex);
-                if (response == 200) {
-                  var characterResponse = await getCharacter(http.Client());
-                  if (characterResponse is Character) {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => QuestScreen()),
-                        (route) => false);
-                  }
-                } else if (response is ResponseException) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(response.message)));
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: midPurple,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              child: Text(
-                'AVANÇAR',
-                style: registrationButton,
-              )),
-        ));
+    return Positioned(
+      left: 34,
+      right: 34,
+      top: 270,
+      bottom: 50,
+      child: Padding(
+          padding:
+              const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
+          child: SizedBox(
+            height: 100,
+            width: 340,
+            child: BlurryContainer(
+              color: Colors.grey.withOpacity(0.5),
+              child: Column(children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                  Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: SizedBox(
+                          width: 150,
+                          child: AutoSizeText(
+                            'Quests Atrasadas',
+                            style: questContainerTitle,
+                          ))),
+                  const Padding(
+                      padding: EdgeInsets.only(left: 120),
+                      child: FloatingActionButton.small(
+                        onPressed: null,
+                        backgroundColor: midPurple,
+                        child: Icon(Icons.add),
+                      ))
+                ]),
+                Expanded(child: TodayQuestList())
+              ]),
+            ),
+          )),
+    );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

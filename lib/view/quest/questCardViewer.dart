@@ -29,7 +29,7 @@ class QuestCardTopControll extends StatelessWidget {
                 style: questContainerTitle,
               ))),
       const Padding(
-          padding: EdgeInsets.only(left: 120),
+          padding: EdgeInsets.only(left: 90, right: 20),
           child: FloatingActionButton.small(
             onPressed: null,
             backgroundColor: midPurple,
@@ -39,8 +39,8 @@ class QuestCardTopControll extends StatelessWidget {
   }
 }
 
-class QuestCardViewer extends StatelessWidget {
-  const QuestCardViewer({Key? key}) : super(key: key);
+class QuestViewer extends StatelessWidget {
+  const QuestViewer({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -93,10 +93,18 @@ class _QuestPageState extends State<QuestPage> {
         pageChanged(index);
       },
       children: const <Widget>[
-        WeeklyQuests(),
-        TodayQuests(),
-        NextWeekQuests(),
-        LateQuests()
+        QuestCardLoader(
+          questCardTitle: 'Quests Semanais',
+        ),
+        QuestCardLoader(
+          questCardTitle: 'Quests do Dia',
+        ),
+        QuestCardLoader(
+          questCardTitle: 'Quests da Próx. Semana',
+        ),
+        QuestCardLoader(
+          questCardTitle: 'Quests Atrasadas',
+        ),
       ],
     );
   }
@@ -122,155 +130,37 @@ class _QuestPageState extends State<QuestPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: buildPageView());
+    return buildPageView();
   }
 }
 
 // weekly
-class WeeklyQuests extends StatefulWidget {
-  const WeeklyQuests({super.key});
+class QuestCardLoader extends StatefulWidget {
+  const QuestCardLoader({super.key, required this.questCardTitle});
 
+  final String questCardTitle;
   @override
-  State<WeeklyQuests> createState() => _WeeklyQuestsState();
+  State<QuestCardLoader> createState() => _QuestCardLoaderState();
 }
 
-class _WeeklyQuestsState extends State<WeeklyQuests>
+class _QuestCardLoaderState extends State<QuestCardLoader>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        left: 34,
-        right: 34,
-        top: 270,
-        bottom: 50,
-        child: Padding(
-          padding:
-              const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
-          child: SizedBox(
-              height: 100,
-              width: 340,
-              child: BlurryContainer(
-                color: Colors.grey.withOpacity(0.5),
-                child: Column(children: const [
-                  QuestCardTopControll(
-                    title: 'Quests Semanais',
-                  ),
-                  Expanded(child: WeeklyQuestList())
-                ]),
-              )),
-        ));
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-}
-
-//today
-class TodayQuests extends StatefulWidget {
-  const TodayQuests({super.key});
-
-  @override
-  State<TodayQuests> createState() => _TodayQuestsState();
-}
-
-class _TodayQuestsState extends State<TodayQuests>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: 34,
-      right: 34,
-      top: 270,
-      bottom: 50,
-      child: Padding(
-          padding:
-              const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
-          child: SizedBox(
-            height: 100,
-            width: 340,
-            child: BlurryContainer(
-              color: Colors.grey.withOpacity(0.5),
-              child: Column(children: const [
-                QuestCardTopControll(title: 'Quests do dia'),
-                Expanded(child: TodayQuestList())
-              ]),
-            ),
-          )),
-    );
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-}
-
-//Next week
-class NextWeekQuests extends StatefulWidget {
-  const NextWeekQuests({super.key});
-
-  @override
-  State<NextWeekQuests> createState() => _NextWeekQuestsState();
-}
-
-class _NextWeekQuestsState extends State<NextWeekQuests>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: 34,
-      right: 34,
-      top: 270,
-      bottom: 50,
-      child: Padding(
-          padding:
-              const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
-          child: SizedBox(
-            height: 100,
-            width: 340,
-            child: BlurryContainer(
-              color: Colors.grey.withOpacity(0.5),
-              child: Column(children: const [
-                QuestCardTopControll(title: 'Quests da Próx. Semana'),
-                Expanded(child: TodayQuestList())
-              ]),
-            ),
-          )),
-    );
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-}
-
-//Next week
-class LateQuests extends StatefulWidget {
-  const LateQuests({super.key});
-
-  @override
-  State<LateQuests> createState() => _LateQuestsState();
-}
-
-class _LateQuestsState extends State<LateQuests>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: 34,
-      right: 34,
-      top: 270,
-      bottom: 50,
-      child: Padding(
-          padding:
-              const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
-          child: SizedBox(
-            height: 100,
-            width: 340,
-            child: BlurryContainer(
-              color: Colors.grey.withOpacity(0.5),
-              child: Column(children: const [
-                QuestCardTopControll(title: 'Quests Atrasadas'),
-                Expanded(child: TodayQuestList())
-              ]),
-            ),
+    return Padding(
+      padding:
+          const EdgeInsets.only(top: 270, bottom: 120, left: 20, right: 20),
+      child: SizedBox(
+          height: 100,
+          width: 340,
+          child: BlurryContainer(
+            color: Colors.grey.withOpacity(0.5),
+            child: Column(children: [
+              QuestCardTopControll(
+                title: widget.questCardTitle,
+              ),
+              Expanded(child: WeeklyQuestList())
+            ]),
           )),
     );
   }

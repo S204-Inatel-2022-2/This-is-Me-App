@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'Escolha seu personagem',
                 style: createCharacterName,
               )),
-          Expanded(child: buildPageView()),
+          buildPageView(),
           const AdvanceButton()
         ],
       ),

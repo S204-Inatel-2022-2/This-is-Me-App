@@ -110,7 +110,15 @@ class QuestLoader extends StatefulWidget {
 }
 
 class _QuestLoaderState extends State<QuestLoader> {
-  late bool isSelected = false;
+  List<bool> isSelectedStateList = [];
+
+  @override
+  void initState() {
+    isSelectedStateList = List<bool>.generate(
+        widget.quests.length, (int index) => widget.quests[index].check);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,10 +183,13 @@ class _QuestLoaderState extends State<QuestLoader> {
                   ),
                   onChanged: (bool? value) {
                     setState(() {
-                      isSelected = value!;
+                      isSelectedStateList[index] = value!;
+
+                      checkQuestCard(
+                          http.Client(), widget.quests[index].questId);
                     });
                   },
-                  value: isSelected),
+                  value: isSelectedStateList[index]),
             ));
       },
     );

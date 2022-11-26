@@ -95,15 +95,19 @@ class _QuestPageState extends State<QuestPage> {
       children: const <Widget>[
         QuestCardLoader(
           questCardTitle: 'Quests Semanais',
+          questList: WeeklyQuestList(),
         ),
         QuestCardLoader(
           questCardTitle: 'Quests do Dia',
+          questList: TodayQuestList(),
         ),
         QuestCardLoader(
           questCardTitle: 'Quests da Próx. Semana',
+          questList: NextWeekQuestList(),
         ),
         QuestCardLoader(
           questCardTitle: 'Quests Atrasadas',
+          questList: LateQuestList(),
         ),
       ],
     );
@@ -136,9 +140,11 @@ class _QuestPageState extends State<QuestPage> {
 
 // weekly
 class QuestCardLoader extends StatefulWidget {
-  const QuestCardLoader({super.key, required this.questCardTitle});
+  const QuestCardLoader(
+      {super.key, required this.questCardTitle, required this.questList});
 
   final String questCardTitle;
+  final Widget questList;
   @override
   State<QuestCardLoader> createState() => _QuestCardLoaderState();
 }
@@ -159,7 +165,7 @@ class _QuestCardLoaderState extends State<QuestCardLoader>
               QuestCardTopControll(
                 title: widget.questCardTitle,
               ),
-              Expanded(child: WeeklyQuestList())
+              Expanded(child: widget.questList)
             ]),
           )),
     );

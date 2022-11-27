@@ -33,7 +33,7 @@ class _CreateQuestScreenState extends State<CreateQuestScreen> {
         Row(children: [
           const BackToQuestButton(),
           Padding(
-              padding: const EdgeInsets.only(top: 50, left: 20),
+              padding: const EdgeInsets.only(top: 50, left: 10),
               child: Row(children: [
                 Text(
                   'NOVA QUEST',

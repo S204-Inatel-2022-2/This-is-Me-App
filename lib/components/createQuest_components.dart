@@ -1,13 +1,16 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, no_logic_in_create_state, library_private_types_in_public_api, prefer_typing_uninitialized_variables
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:this_is_me/constants/app_colors.dart';
 import 'package:this_is_me/constants/app_fonts.dart';
 
 TextEditingController nameController = TextEditingController();
 TextEditingController descriptionController = TextEditingController();
+TextEditingController dateStartInput = TextEditingController();
+TextEditingController dateEndInput = TextEditingController();
+
 Color selectedColor = Colors.red;
 bool checkBoxIsEnabledEveryDay = false;
 bool checkBoxIsEnabledSameHour = false;
@@ -102,7 +105,7 @@ class NameInput extends StatelessWidget {
         child: Row(
           children: [
             SizedBox(
-                width: 310,
+                width: 300,
                 child: TextField(
                     controller: nameController,
                     decoration: InputDecoration(
@@ -117,21 +120,20 @@ class NameInput extends StatelessWidget {
                       ),
                     ))),
             const Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: CreateQuestComponents())
+                padding: EdgeInsets.only(left: 10), child: ColorComponent())
           ],
         ));
   }
 }
 
-class CreateQuestComponents extends StatefulWidget {
-  const CreateQuestComponents({Key? key}) : super(key: key);
+class ColorComponent extends StatefulWidget {
+  const ColorComponent({Key? key}) : super(key: key);
 
   @override
-  _CreateQuestComponentsState createState() => _CreateQuestComponentsState();
+  _ColorComponentState createState() => _ColorComponentState();
 }
 
-class _CreateQuestComponentsState extends State<CreateQuestComponents> {
+class _ColorComponentState extends State<ColorComponent> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -265,12 +267,10 @@ class _DaysInWeekComponentsState extends State<DaysInWeekComponents> {
                   )
                 ],
               )),
-          if (checkBoxIsEnabledEveryDay)
-            const HoursInDays(
-              day: 'PERIODO:',
-              isVisible: true,
-            )
-          else
+          const Padding(
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              child: SetDateInitialAndFinal()),
+          if (!checkBoxIsEnabledEveryDay)
             Padding(
                 padding: const EdgeInsets.only(top: 10),
                 child: Column(
@@ -324,12 +324,7 @@ class _DaysInWeekComponentsState extends State<DaysInWeekComponents> {
                             )
                           ],
                         )),
-                    if (checkBoxIsEnabledSameHour)
-                      const HoursInDays(
-                        day: 'PERIODO:',
-                        isVisible: true,
-                      )
-                    else
+                    if (!checkBoxIsEnabledSameHour)
                       Column(
                         children: [
                           HoursInDays(
@@ -362,6 +357,11 @@ class _DaysInWeekComponentsState extends State<DaysInWeekComponents> {
                           ),
                         ],
                       )
+                    else
+                      const HoursInDays(
+                        day: 'HORARIO:',
+                        isVisible: true,
+                      ),
                   ],
                 )),
         ]));
@@ -427,3 +427,90 @@ class HoursInDays extends StatelessWidget {
             )));
   }
 }
+
+class SetDateInitialAndFinal extends StatefulWidget {
+  const SetDateInitialAndFinal({Key? key}) : super(key: key);
+
+  @override
+  _SetDateInitialAndFinalState createState() => _SetDateInitialAndFinalState();
+}
+
+class _SetDateInitialAndFinalState extends State<SetDateInitialAndFinal> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 84,
+          child: Text("PERIODO:", style: createSkillsDescription),
+        ),
+        Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: SizedBox(
+                width: 120,
+                height: 50,
+                child: SetDateComponents(controller: dateStartInput))),
+        Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: SizedBox(
+                width: 120,
+                height: 50,
+                child: SetDateComponents(
+                  controller: dateEndInput,
+                ))),
+      ],
+    );
+  }
+}
+
+class SetDateComponents extends StatefulWidget {
+  const SetDateComponents({super.key, required this.controller});
+  final TextEditingController controller;
+
+  @override
+  _SetDateComponentsState createState() => _SetDateComponentsState(controller);
+}
+
+class _SetDateComponentsState extends State<SetDateComponents> {
+  var controller;
+
+  _SetDateComponentsState(TextEditingController _controller) {
+    controller = _controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: TextField(
+      textAlign: TextAlign.center,
+      controller: controller,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+        ),
+      ),
+      readOnly: true,
+      onTap: () async {
+        DateTime? pickedDate = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1950),
+            lastDate: DateTime(2100));
+
+        if (pickedDate != null) {
+          String formattedDate = DateFormat('dd-MM-yyyy').format(pickedDate);
+          setState(() {
+            controller.text = formattedDate;
+          });
+        } else {}
+      },
+    ));
+  }
+}
+
+                          // 

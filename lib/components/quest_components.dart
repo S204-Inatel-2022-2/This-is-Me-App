@@ -7,6 +7,7 @@ import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/quest_controller.dart';
 import 'package:this_is_me/model/quest.dart';
 import 'package:http/http.dart' as http;
+import 'package:this_is_me/view/createQuest_screen.dart';
 
 class QuestList extends StatelessWidget {
   const QuestList({super.key});
@@ -117,12 +118,11 @@ class _QuestLoaderState extends State<QuestLoader> {
 }
 
 class LeftColumn extends StatelessWidget {
-  const LeftColumn({
-    super.key,
-    required this.level,
-    required this.name,
-    required this.clothes
-  });
+  const LeftColumn(
+      {super.key,
+      required this.level,
+      required this.name,
+      required this.clothes});
   final String level;
   final String name;
   final int clothes;
@@ -141,20 +141,17 @@ class LeftColumn extends StatelessWidget {
                 name,
                 style: characterName,
               ),
-              SizedBox(
-                  width: 200,
-                  child: Image.asset(getClothesDir(clothes)))
+              SizedBox(width: 200, child: Image.asset(getClothesDir(clothes)))
             ]))
       ],
     );
   }
 
-  String getClothesDir(int number){
-    if(number == 1)
-      return 'assets/images/personagemFem1.png';
+  String getClothesDir(int number) {
+    if (number == 1) return 'assets/images/personagemFem1.png';
 
     return 'assets/images/personagemMasc1.png';
-  } 
+  }
 }
 
 class RightColumn extends StatelessWidget {
@@ -241,5 +238,23 @@ class NavigationButtons extends StatelessWidget {
             Text('Perfil', style: navigationButtonsLabels)
           ])),
     ]);
+  }
+}
+
+class CreateQuestButton extends StatelessWidget {
+  const CreateQuestButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(left: 120),
+        child: FloatingActionButton.small(
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateQuestScreen())),
+          backgroundColor: midPurple,
+          child: const Icon(Icons.add),
+        ));
   }
 }

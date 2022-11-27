@@ -55,5 +55,19 @@ var textCodeForget = GoogleFonts.jura(
     fontSize: 15, color: Colors.white, fontWeight: FontWeight.bold);
 
 // CreateCharacter Screen
-var createCharacterName =  GoogleFonts.jura(
-    fontSize: 20, color: lightPurple, fontWeight: FontWeight.bold);    
+var createCharacterName = GoogleFonts.jura(
+    fontSize: 20, color: lightPurple, fontWeight: FontWeight.bold);
+
+// CreateQuest Screen
+var createNewQuestTitle = GoogleFonts.jura(
+    fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
+var createButtonCreate = GoogleFonts.jura(
+    fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
+var createSkillsDescription = GoogleFonts.jura(
+    fontSize: 15, color: Colors.grey, fontWeight: FontWeight.bold);
+var createPlusIcon = GoogleFonts.jura(
+    fontSize: 40, color: Colors.black, fontWeight: FontWeight.bold);
+var dayInWeekEnabled = GoogleFonts.jura(
+    fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold);
+var dayInWeekDisabled = GoogleFonts.jura(
+    fontSize: 16, color: Colors.black, fontWeight: FontWeight.bold);

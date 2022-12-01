@@ -47,12 +47,8 @@ class _QuestScreenState extends State<QuestScreen> {
                         const RightColumn()
                       ],
                     )),
-                
               ])),
-              const Positioned(
-                left: 30,
-                bottom:30,
-                child: NavigationButtons()),
+          const Positioned(left: 30, bottom: 30, child: NavigationButtons()),
           Positioned(
               left: 34,
               right: 34,
@@ -74,19 +70,12 @@ class _QuestScreenState extends State<QuestScreen> {
                                     'Quests do Dia',
                                     style: questContainerTitle,
                                   )),
-                              const Padding(
-                                  padding: EdgeInsets.only(left: 120),
-                                  child: FloatingActionButton.small(
-                                    onPressed: null,
-                                    backgroundColor: midPurple,
-                                    child: Icon(Icons.add),
-                                  ))
+                              const CreateQuestButton()
                             ]),
-                        Expanded(child: QuestList())
+                        const Expanded(child: QuestList())
                       ]),
                     ),
                   ))),
         ]));
   }
 }
-

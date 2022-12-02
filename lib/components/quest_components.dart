@@ -7,6 +7,7 @@ import 'package:this_is_me/constants/app_fonts.dart';
 import 'package:this_is_me/controller/quest_controller.dart';
 import 'package:this_is_me/model/quest.dart';
 import 'package:http/http.dart' as http;
+import 'package:this_is_me/view/createQuest_screen.dart';
 
 class WeeklyQuestList extends StatelessWidget {
   const WeeklyQuestList({super.key});
@@ -317,5 +318,23 @@ class NavigationButtons extends StatelessWidget {
             Text('Perfil', style: navigationButtonsLabels)
           ])),
     ]);
+  }
+}
+
+class CreateQuestButton extends StatelessWidget {
+  const CreateQuestButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.only(left: 120),
+        child: FloatingActionButton.small(
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateQuestScreen())),
+          backgroundColor: midPurple,
+          child: const Icon(Icons.add),
+        ));
   }
 }

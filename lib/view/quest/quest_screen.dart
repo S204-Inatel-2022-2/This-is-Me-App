@@ -65,8 +65,8 @@ class _QuestScreenState extends State<QuestScreen> {
                       ],
                     )),
               ])),
-          QuestViewer(),
-          Positioned(
+          const QuestViewer(),
+          const Positioned(
               bottom: 20, left: 20, right: 20, child: NavigationButtons()),
         ]));
   }

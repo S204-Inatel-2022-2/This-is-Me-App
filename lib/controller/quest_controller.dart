@@ -65,10 +65,10 @@ Future<List<Quest>> lateCards(http.Client client) async {
 void checkQuestCard(http.Client client, String id) async {
   final prefs = await SharedPreferences.getInstance();
   final String? token = prefs.getString('token');
-
-  final response = await client.post(
-      Uri.parse(
-          'https://timeapibyredfoxghs.herokuapp.com/subQuest/check-sub-quest?id=${id}'),
+  final url =
+      'https://timeapibyredfoxghs.herokuapp.com/subQuest/check-sub-quest/?id=$id';
+  print(url);
+  final response = await client.patch(Uri.parse(url),
       headers: {'accept': 'application/json', 'Cookie': token.toString()});
   print(response.body);
 }

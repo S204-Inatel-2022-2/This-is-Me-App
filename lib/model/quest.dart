@@ -10,6 +10,7 @@ class Quest {
   final int total;
   final int finalized;
   final bool check;
+  final String subQuestId;
 
   Quest(
       {required this.questId,
@@ -22,7 +23,8 @@ class Quest {
       required this.xp,
       required this.total,
       required this.finalized,
-      required this.check});
+      required this.check,
+      required this.subQuestId});
 
   factory Quest.fromJson(Map<String, dynamic> json) {
     return Quest(
@@ -36,6 +38,7 @@ class Quest {
         xp: json['xp'],
         total: json['total'],
         finalized: json['finalized'],
-        check: json['check']);
+        check: json['check'],
+        subQuestId: json['subQuestId']);
   }
 }

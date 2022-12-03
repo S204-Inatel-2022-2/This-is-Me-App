@@ -1,4 +1,5 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:this_is_me/components/quest_components.dart';
@@ -50,7 +51,7 @@ class _QuestScreenState extends State<QuestScreen> {
                                     snapshot.data as Character;
 
                                 return LeftColumn(
-                                  level: character.level.toString(),
+                                  level: character.level,
                                   name: character.characterName,
                                   clothes: character.clothes,
                                 );

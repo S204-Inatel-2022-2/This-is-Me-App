@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -186,7 +187,7 @@ class _QuestLoaderState extends State<QuestLoader> {
                       isSelectedStateList[index] = value!;
 
                       checkQuestCard(
-                          http.Client(), widget.quests[index].questId);
+                          http.Client(), widget.quests[index].subQuestId);
                     });
                   },
                   value: isSelectedStateList[index]),
@@ -202,7 +203,7 @@ class LeftColumn extends StatelessWidget {
       required this.level,
       required this.name,
       required this.clothes});
-  final String level;
+  final int level;
   final String name;
   final int clothes;
   @override

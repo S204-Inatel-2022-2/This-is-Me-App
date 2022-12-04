@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:this_is_me/controller/user_controller.dart';
 import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/model/exception/response_exception.dart';
+import 'package:this_is_me/view/createQuest_screen.dart';
 import 'package:this_is_me/view/quest/quest_screen.dart';
 
 int bottomSelectedIndex = 0;
@@ -28,12 +29,15 @@ class QuestCardTopControll extends StatelessWidget {
                 title,
                 style: questContainerTitle,
               ))),
-      const Padding(
-          padding: EdgeInsets.only(left: 90, right: 20),
+      Padding(
+          padding: const EdgeInsets.only(left: 90, right: 20),
           child: FloatingActionButton.small(
-            onPressed: null,
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const CreateQuestScreen())),
             backgroundColor: midPurple,
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           ))
     ]);
   }

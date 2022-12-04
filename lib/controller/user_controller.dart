@@ -9,8 +9,8 @@ Future<dynamic> loginUser(
   String email,
   String password,
 ) async {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final SharedPreferences prefs = await _prefs;
+  final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
+  final SharedPreferences prefs = await preferences;
   final response = await client.post(
       Uri.parse('https://timeapibyredfoxghs.herokuapp.com/user/login'),
       headers: <String, String>{
@@ -43,8 +43,8 @@ Future<dynamic> loginUser(
 
 Future<dynamic> signUpUser(http.Client client, String username, String email,
     String password, String passwordAgain) async {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final SharedPreferences prefs = await _prefs;
+  final Future<SharedPreferences> preferences = SharedPreferences.getInstance();
+  final SharedPreferences prefs = await preferences;
   final response = await client.post(
       Uri.parse('https://timeapibyredfoxghs.herokuapp.com/user/register'),
       headers: <String, String>{

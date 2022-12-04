@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -9,13 +10,82 @@ import 'package:this_is_me/model/quest.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/view/createQuest_screen.dart';
 
-class QuestList extends StatelessWidget {
-  const QuestList({super.key});
+class WeeklyQuestList extends StatelessWidget {
+  const WeeklyQuestList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Quest>>(
-      future: getTodayQuests(http.Client()),
+      future: weeklyCards(http.Client()),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error!.toString()),
+          );
+        } else if (snapshot.hasData) {
+          return QuestLoader(quests: snapshot.data!);
+        }
+        return Center(
+            child: LoadingAnimationWidget.halfTriangleDot(
+                color: mainLoadingAnimationColor, size: 40));
+      }),
+    );
+  }
+}
+
+class TodayQuestList extends StatelessWidget {
+  const TodayQuestList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Quest>>(
+      future: todayCards(http.Client()),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error!.toString()),
+          );
+        } else if (snapshot.hasData) {
+          return QuestLoader(quests: snapshot.data!);
+        }
+        return Center(
+            child: LoadingAnimationWidget.halfTriangleDot(
+                color: mainLoadingAnimationColor, size: 40));
+      }),
+    );
+  }
+}
+
+class NextWeekQuestList extends StatelessWidget {
+  const NextWeekQuestList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Quest>>(
+      future: nextWeekCards(http.Client()),
+      builder: ((context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error!.toString()),
+          );
+        } else if (snapshot.hasData) {
+          return QuestLoader(quests: snapshot.data!);
+        }
+        return Center(
+            child: LoadingAnimationWidget.halfTriangleDot(
+                color: mainLoadingAnimationColor, size: 40));
+      }),
+    );
+  }
+}
+
+class LateQuestList extends StatelessWidget {
+  const LateQuestList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Quest>>(
+      future: lateCards(http.Client()),
       builder: ((context, snapshot) {
         if (snapshot.hasError) {
           return Center(
@@ -42,7 +112,15 @@ class QuestLoader extends StatefulWidget {
 }
 
 class _QuestLoaderState extends State<QuestLoader> {
-  late bool isSelected = false;
+  List<bool> isSelectedStateList = [];
+
+  @override
+  void initState() {
+    isSelectedStateList = List<bool>.generate(
+        widget.quests.length, (int index) => widget.quests[index].check);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,10 +185,13 @@ class _QuestLoaderState extends State<QuestLoader> {
                   ),
                   onChanged: (bool? value) {
                     setState(() {
-                      isSelected = value!;
+                      isSelectedStateList[index] = value!;
+
+                      checkQuestCard(
+                          http.Client(), widget.quests[index].subQuestId);
                     });
                   },
-                  value: isSelected),
+                  value: isSelectedStateList[index]),
             ));
       },
     );
@@ -123,7 +204,7 @@ class LeftColumn extends StatelessWidget {
       required this.level,
       required this.name,
       required this.clothes});
-  final String level;
+  final int level;
   final String name;
   final int clothes;
   @override

@@ -6,7 +6,27 @@ import 'package:this_is_me/model/character.dart';
 import 'package:http/http.dart' as http;
 import 'package:this_is_me/model/quest.dart';
 
-Future<List<Quest>> getTodayQuests(http.Client client) async {
+// A function that converts a response body into a List<Photo>.
+List<Quest> parseQuests(String responseBody) {
+  final parsed = jsonDecode(utf8.decode((responseBody.codeUnits)))
+      .cast<Map<String, dynamic>>();
+
+  return parsed.map<Quest>((json) => Quest.fromJson(json)).toList();
+}
+
+Future<List<Quest>> weeklyCards(http.Client client) async {
+  final prefs = await SharedPreferences.getInstance();
+  final String? token = prefs.getString('token');
+  final response = await client.get(
+      Uri.parse(
+          'https://timeapibyredfoxghs.herokuapp.com/subQuest/weekly-cards'),
+      headers: {'accept': 'application/json', 'Cookie': token.toString()});
+
+  // Use the compute function to run parsePhotos in a separate isolate.
+  return compute(parseQuests, response.body);
+}
+
+Future<List<Quest>> todayCards(http.Client client) async {
   final prefs = await SharedPreferences.getInstance();
   final String? token = prefs.getString('token');
   final response = await client.get(
@@ -18,10 +38,37 @@ Future<List<Quest>> getTodayQuests(http.Client client) async {
   return compute(parseQuests, response.body);
 }
 
-// A function that converts a response body into a List<Photo>.
-List<Quest> parseQuests(String responseBody) {
-  final parsed = jsonDecode(utf8.decode((responseBody.codeUnits)))
-      .cast<Map<String, dynamic>>();
+Future<List<Quest>> nextWeekCards(http.Client client) async {
+  final prefs = await SharedPreferences.getInstance();
+  final String? token = prefs.getString('token');
+  final response = await client.get(
+      Uri.parse(
+          'https://timeapibyredfoxghs.herokuapp.com/subQuest/next-week-cards'),
+      headers: {'accept': 'application/json', 'Cookie': token.toString()});
+  print(response.body);
 
-  return parsed.map<Quest>((json) => Quest.fromJson(json)).toList();
+  // Use the compute function to run parsePhotos in a separate isolate.
+  return compute(parseQuests, response.body);
+}
+
+Future<List<Quest>> lateCards(http.Client client) async {
+  final prefs = await SharedPreferences.getInstance();
+  final String? token = prefs.getString('token');
+  final response = await client.get(
+      Uri.parse('https://timeapibyredfoxghs.herokuapp.com/subQuest/late-cards'),
+      headers: {'accept': 'application/json', 'Cookie': token.toString()});
+
+  // Use the compute function to run parsePhotos in a separate isolate.
+  return compute(parseQuests, response.body);
+}
+
+void checkQuestCard(http.Client client, String id) async {
+  final prefs = await SharedPreferences.getInstance();
+  final String? token = prefs.getString('token');
+  final url =
+      'https://timeapibyredfoxghs.herokuapp.com/subQuest/check-sub-quest/?id=$id';
+  print(url);
+  final response = await client.patch(Uri.parse(url),
+      headers: {'accept': 'application/json', 'Cookie': token.toString()});
+  print(response.body);
 }

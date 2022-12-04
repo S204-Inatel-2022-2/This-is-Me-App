@@ -14,7 +14,6 @@ import 'package:this_is_me/controller/user_controller.dart';
 import 'package:this_is_me/model/character.dart';
 import 'package:this_is_me/view/quest/quest_screen.dart';
 
-
 TextEditingController nameController = TextEditingController();
 TextEditingController descriptionController = TextEditingController();
 TextEditingController skillController = TextEditingController();
@@ -196,12 +195,6 @@ class CreateTaskButton extends StatelessWidget {
 
               var request = await createQuest(http.Client(), bodyRequest);
               if (request is http.Response && request.statusCode == 200) {
-                final prefs = await SharedPreferences.getInstance();
-                final String? token = prefs.getString('token');
-                var response =
-                    await loadCharacter(http.Client(), token.toString());
-                Character character = Character.fromJson(jsonDecode(response));
-
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(

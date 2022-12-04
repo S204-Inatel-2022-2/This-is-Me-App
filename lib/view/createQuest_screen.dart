@@ -51,7 +51,7 @@ class _CreateQuestScreenState extends State<CreateQuestScreen> {
         Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Text(skillDescriptionText, style: createSkillsDescription)),
-        const ButtonCreateSkills(),
+        const SkillInput(),
         const DaysInWeekComponents(
             textCheckBoxEveryDay: createQuestRepeatDays,
             textCheckBoxSameHour: createQuestSameHour)

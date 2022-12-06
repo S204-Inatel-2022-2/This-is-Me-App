@@ -64,7 +64,7 @@ var createNewQuestTitle = GoogleFonts.jura(
 var createButtonCreate = GoogleFonts.jura(
     fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold);
 var createSkillsDescription = GoogleFonts.jura(
-    fontSize: 15, color: Colors.grey, fontWeight: FontWeight.bold);
+    fontSize: 13, color: Colors.grey, fontWeight: FontWeight.bold);
 var createPlusIcon = GoogleFonts.jura(
     fontSize: 40, color: Colors.black, fontWeight: FontWeight.bold);
 var dayInWeekEnabled = GoogleFonts.jura(

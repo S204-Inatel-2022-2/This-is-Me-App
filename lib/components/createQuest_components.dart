@@ -77,8 +77,8 @@ class CreateTaskButton extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(left: 15),
         child: SizedBox(
-          height: 50,
-          width: 130,
+          height: 40,
+          width: 100,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
                 backgroundColor: midPurple,
@@ -270,8 +270,8 @@ class _ColorComponentState extends State<ColorComponent> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 50,
-        height: 50,
+        width: 40,
+        height: 40,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               backgroundColor: selectedColor,
@@ -412,21 +412,6 @@ class _DaysInWeekComponentsState extends State<DaysInWeekComponents> {
     return Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Column(children: [
-          // Padding(
-          //     padding: const EdgeInsets.only(top: 10),
-          //     child: Row(
-          //       children: [
-          //         Text(textCheckBoxEveryDay, style: createSkillsDescription),
-          //         Checkbox(
-          //           onChanged: (value) => setState(() {
-          //             checkBoxIsEnabledEveryDay = !checkBoxIsEnabledEveryDay;
-          //           }),
-          //           value: checkBoxIsEnabledEveryDay,
-          //           activeColor: midPurple,
-          //           checkColor: inputField,
-          //         )
-          //       ],
-          //     )),
           const Padding(
               padding: EdgeInsets.only(bottom: 10),
               child: SetDateInitialAndFinal()),
@@ -442,8 +427,8 @@ class _DaysInWeekComponentsState extends State<DaysInWeekComponents> {
                               padding:
                                   const EdgeInsets.only(right: 10, bottom: 10),
                               child: SizedBox(
-                                height: 35,
-                                width: 43,
+                                height: 30,
+                                width: 40,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       padding: const EdgeInsets.symmetric(
@@ -565,8 +550,8 @@ class HoursInDays extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(
-                  width: 84,
-                  child: Text(day, style: createSkillsDescription),
+                  width: 70,
+                  child: Text(day, style: createSkillsDescription,),
                 ),
                 Padding(
                     padding: const EdgeInsets.only(left: 20),
@@ -608,13 +593,13 @@ class _SetDateInitialAndFinalState extends State<SetDateInitialAndFinal> {
         Padding(
             padding: const EdgeInsets.only(left: 20),
             child: SizedBox(
-                width: 120,
+                width: 110,
                 height: 50,
                 child: SetDateComponents(controller: startDate))),
         Padding(
             padding: const EdgeInsets.only(left: 20),
             child: SizedBox(
-                width: 120,
+                width: 110,
                 height: 50,
                 child: SetDateComponents(controller: endDate))),
       ],
